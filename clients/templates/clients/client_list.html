@@ -1,7 +1,7 @@
 {% extends 'mailing/base.html' %}
 
 {% block content %}
-<nav aria-label="...">
+<nav class="navbar navbar-dark bg-dark" aria-label="dark">
     <ul class="pagination">
         {% if page_obj.has_previous %}
         <li class="page-item">
@@ -33,11 +33,16 @@
             <li class="list-group-item">{{ object.email }}</li>
             <li class="list-group-item">{{ object.comment }}</li>
         </ul>
-        <div class="card-body">
-            <a href="{% url 'clients:client_update' object.pk %}" class="btn btn-dark">Редактировать</a>
-        </div>
-        <div class="card-body">
-            <a href="{% url 'clients:client_detail' object.pk %}" class="btn btn-dark">Просмотр</a>
+        <div class="row">
+            <div class="col-3" style="width: 10rem;">
+                <a href="{% url 'clients:client_update' object.pk %}" class="btn btn-dark">Редактировать</a>
+            </div>
+            <div class="col-3" style="width: 10rem;">
+                <a href="{% url 'clients:client_detail' object.pk %}" class="btn btn-dark">Просмотр</a>
+            </div>
+            <div class="col-3" style="width: 10rem;">
+                <a href="{% url 'clients:client_delete' object.pk %}" class="btn btn-dark">Удалить</a>
+            </div>
         </div>
     </div>
     {% endfor %}

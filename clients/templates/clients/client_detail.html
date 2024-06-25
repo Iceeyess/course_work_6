@@ -1,0 +1,20 @@
+{% extends 'mailing/base.html' %}
+
+{% block content %}
+<table class="table-dark">
+    <thead class="thead-dark">
+        <tr>
+            <th scope="col">Имя</th>
+            <th scope="col">Email</th>
+            <th scope="col">Комментарий</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>{{ object.full_name }}</td>
+            <td>{{ object.email }}</td>
+            <td>{{ object.comment }}</td>
+        </tr>
+    </tbody>
+</table>
+{% endblock %}

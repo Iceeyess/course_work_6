@@ -12,7 +12,11 @@
         <form action="{% url 'clients:client_create' %}" method="post">
             {% csrf_token %}
             {{ form.as_p }}
-            <button type="submit" class="btn btn-dark">Сохранить</button>
+            {% if object %}
+            <button type="submit" class="btn btn-dark">Сохранить изменения</button>
+            {% else %}
+            <button type="submit" class="btn btn-dark">Создать клиента</button>
+            {% endif %}
         </form>
     </div>
 </div>
