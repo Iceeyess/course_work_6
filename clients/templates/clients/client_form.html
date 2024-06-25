@@ -1,5 +1,21 @@
 {% extends 'mailing/base.html' %}
 
 {% block content %}
+<div class="container">
+    <div class="row">
+        <h1>Создание клиента</h1>
+    </div>
+    <div class="row">
+        <a href="{% url 'clients:client_list' %}" class="btn btn-dark">Вернуться к списку клиентов</a>
+    </div>
+    <div class="row">
+        <form action="{% url 'clients:client_create' %}" method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-dark">Сохранить</button>
+        </form>
+    </div>
+</div>
+
 
 {% endblock %}

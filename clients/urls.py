@@ -7,4 +7,5 @@ app_name = ClientsConfig.name
 urlpatterns = [
     path('', ClientListView.as_view(), name='client_list'),
     path('create/', ClientCreateView.as_view(), name='client_create'),
+    path('edit/<int:pk>/', ClientCreateView.as_view(), name='client_update'),
 ]
