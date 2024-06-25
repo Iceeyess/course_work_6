@@ -1,24 +1,11 @@
 from django.db import models
-
-NULLABLE = {'blank': True, 'null': True}
-
+from clients.models import Client
 
 # Create your models here.
-class Client(models.Model):
-    email = models.EmailField(verbose_name='Электронная почта', help_text='Введите электронную почту')
-    full_name = models.CharField(max_length=100, verbose_name='Ф.И.О.', help_text='Введите Ф.И.О.')
-    comment = models.TextField(verbose_name='Комментарий', help_text='Введите комментарий')
-
-    def __str__(self):
-        return self.full_name
-
-    class Meta:
-        verbose_name = 'Клиент'
-        verbose_name_plural = 'Клиенты'
-        ordering = ('pk', )
 
 
-class Period(models.Model):
+class Frequency(models.Model):
+    # Frequency - частота (периодичность) рассылки
     period = models.CharField(default=False, verbose_name='Период', help_text='Введите период')
 
     class Meta:
@@ -26,7 +13,7 @@ class Period(models.Model):
         verbose_name_plural = 'периоды'
 
 
-class Status(models.Model):
+class Log(models.Model):
     period = models.CharField(default=False, verbose_name='Статус', help_text='Введите статус отправки')
 
     class Meta:
@@ -45,11 +32,12 @@ class Message(models.Model):
 
 class Mailing(models.Model):
     date_time_first_try = models.DateTimeField(verbose_name='Тема сообщения', help_text='Введите тему сообщения')
-    period = models.ForeignKey(Period, on_delete=models.CASCADE)
-    status = models.ForeignKey(Status, on_delete=models.CASCADE)
+    period = models.ForeignKey(Frequency, on_delete=models.CASCADE)
+    status = models.ForeignKey(Log, on_delete=models.CASCADE)
     message = models.ForeignKey(Message, on_delete=models.CASCADE)
     client = models.ForeignKey(Client, on_delete=models.CASCADE)
 
     class Meta:
         verbose_name = 'рассылка'
         verbose_name_plural = 'рассылки'
+        ordering = ('pk', )
