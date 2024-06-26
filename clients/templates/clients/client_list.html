@@ -1,8 +1,9 @@
 {% extends 'mailing/base.html' %}
 
 {% block content %}
-<nav class="navbar navbar-dark bg-dark" aria-label="dark">
-    <ul class="pagination">
+<br>
+<nav class="pagination justify-content-center" aria-label="dark">
+    <ul class="pagination justify-content-center">
         {% if page_obj.has_previous %}
         <li class="page-item">
             <a class="page-link" href="?page={{ page_obj.previous_page_number }}" tabindex="-1">Previous</a>
