@@ -1,5 +1,5 @@
 from django.contrib import admin
-from mailing.models import Mailing, Message, Frequency, Log
+from mailing.models import Mailing, Frequency
 
 # Register your models here.
 

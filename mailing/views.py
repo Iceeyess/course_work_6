@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.views.generic import ListView, TemplateView
+from django.views.generic import ListView, TemplateView, CreateView
 from .apps import MailingConfig
 from mailing.models import Mailing
 
@@ -14,5 +14,10 @@ class MainTemplateView(TemplateView):
 class MailingListView(ListView):
     model = Mailing
 
+
+class MailingCreateView(CreateView):
+    model = Mailing
+    fields = ('date_time_first_try', 'period', 'message', 'client', )
+    extra_context = {'topic_name': topic_name}  # Для возврата
 
 

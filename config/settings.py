@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 from pathlib import Path
 import os
 from mailing.apps import MailingConfig
+from clients.apps import ClientsConfig
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -60,6 +61,7 @@ TEMPLATES = [
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
             os.path.join(BASE_DIR, MailingConfig.name, 'templates'),
+            os.path.join(BASE_DIR, ClientsConfig.name, 'templates'),
         ],
         'APP_DIRS': True,
         'OPTIONS': {

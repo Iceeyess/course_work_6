@@ -1,0 +1,25 @@
+{% extends 'mailing/base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <h1>Создание рассылки</h1>
+    </div>
+    <div class="row">
+        <a href="{% url 'mailing:mailing_list' %}" class="btn btn-dark">Вернуться к списку рассылок</a>
+    </div>
+    <div class="row">
+        <form action="{% url 'mailing:mailing_create' %}" method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            {% if object %}
+            <button type="submit" class="btn btn-dark">Сохранить изменения</button>
+            {% else %}
+            <button type="submit" class="btn btn-dark">Создать клиента</button>
+            {% endif %}
+        </form>
+    </div>
+</div>
+
+
+{% endblock %}

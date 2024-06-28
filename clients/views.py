@@ -22,6 +22,7 @@ class ClientCreateView(CreateView):
     model = Client
     fields = '__all__'
     success_url = reverse_lazy('clients:client_list')
+    extra_context = {'topic_name': topic_name}  # Для возврата
 
 
 class ClientUpdateView(UpdateView):

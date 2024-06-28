@@ -21,7 +21,7 @@ class Log(models.Model):
         verbose_name_plural = 'статусы'
 
 
-class Message(models.Model):
+class Communication(models.Model):
     topic = models.CharField(max_length=100, verbose_name='Тема сообщения', help_text='Введите тему сообщения')
     text = models.TextField(verbose_name='Текст сообщения', help_text='Введите текст сообщения')
 
@@ -31,10 +31,11 @@ class Message(models.Model):
 
 
 class Mailing(models.Model):
-    date_time_first_try = models.DateTimeField(verbose_name='Тема сообщения', help_text='Введите тему сообщения')
+    date_time_first_try = models.DateTimeField(verbose_name='Дата и время первой рассылки',
+                                               help_text='Введите дату и время первой рассылки')
     period = models.ForeignKey(Frequency, on_delete=models.CASCADE)
     status = models.ForeignKey(Log, on_delete=models.CASCADE)
-    message = models.ForeignKey(Message, on_delete=models.CASCADE)
+    message = models.ForeignKey(Communication, on_delete=models.CASCADE)
     client = models.ForeignKey(Client, on_delete=models.CASCADE)
 
     class Meta:
