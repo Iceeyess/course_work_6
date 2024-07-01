@@ -1,6 +1,7 @@
 from django.db import models
 from clients.models import Client
 from communications.models import Communication
+from datetime import datetime
 
 # Create your models here.
 
@@ -18,7 +19,7 @@ class Frequency(models.Model):
 
 
 class Log(models.Model):
-    date_time_last_try = models.DateField(default='asd', verbose_name='Дата и время последней попытки рассылки')
+    date_time_last_try = models.DateField(default=datetime.now(), verbose_name='Дата и время последней попытки рассылки')
     status = models.CharField(default=None, max_length=50, verbose_name='Статус рассылки')
     server_answer = models.CharField(default=None, max_length=100, verbose_name='Ответ от сервера')
 
