@@ -1,0 +1,53 @@
+{% extends 'mailing/base.html' %}
+
+{% block content %}
+<br>
+<nav class="pagination justify-content-center" aria-label="dark">
+    <ul class="pagination justify-content-center">
+        {% if page_obj.has_previous %}
+        <li class="page-item">
+            <a class="page-link" href="?page={{ page_obj.previous_page_number }}" tabindex="-1">Previous</a>
+        </li>
+        {% endif %}
+        <li class="page-item active">
+            <a class="page-link" href="?page={{ page_obj.number }}">{{ page_obj.number }}</a>
+        </li>
+        {% if page_obj.has_next %}
+        <li class="page-item">
+            <a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a>
+        </li>
+        {% endif %}
+    </ul>
+</nav>
+
+<div class="container" style="width: 30rem;">
+    <div class="row">
+        <h1>Список сообщений</h1>
+    </div>
+    <div class="row">
+        <a href="{% url 'communications:communication_create' %}" class="btn btn-dark"><h4>Создать сообщение</h4></a>
+    </div>
+    {% for object in object_list %}
+    <div class="card-body">
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">{{ object.topic}}</li>
+            <li class="list-group-item">{{ object.body }}</li>
+        </ul>
+        <div class="row">
+            <div class="col-3" style="width: 10rem;">
+                <a href="{% url 'communications:communication_update' object.pk %}" class="btn btn-dark">Редактировать</a>
+            </div>
+            <div class="col-3" style="width: 10rem;">
+                <a href="{% url 'communications:communication_detail' object.pk %}" class="btn btn-dark">Просмотр</a>
+            </div>
+            <div class="col-3" style="width: 10rem;">
+                <a href="{% url 'communications:communication_delete' object.pk %}" class="btn btn-dark">Удалить</a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+
+
+</div>
+
+{% endblock %}

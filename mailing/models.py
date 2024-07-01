@@ -1,5 +1,6 @@
 from django.db import models
 from clients.models import Client
+from communications.models import Communication
 
 # Create your models here.
 
@@ -8,30 +9,29 @@ class Frequency(models.Model):
     # Frequency - частота (периодичность) рассылки
     period = models.CharField(default=False, verbose_name='Период', help_text='Введите период')
 
+    def __str__(self):
+        return self.period
+
     class Meta:
         verbose_name = 'период'
         verbose_name_plural = 'периоды'
 
 
 class Log(models.Model):
-    period = models.CharField(default=False, verbose_name='Статус', help_text='Введите статус отправки')
+    date_time_last_try = models.DateField(default='asd', verbose_name='Дата и время последней попытки рассылки')
+    status = models.CharField(default=None, max_length=50, verbose_name='Статус рассылки')
+    server_answer = models.CharField(default=None, max_length=100, verbose_name='Ответ от сервера')
+
+    def __str__(self):
+        return self.server_answer
 
     class Meta:
-        verbose_name = 'статус'
-        verbose_name_plural = 'статусы'
-
-
-class Communication(models.Model):
-    topic = models.CharField(max_length=100, verbose_name='Тема сообщения', help_text='Введите тему сообщения')
-    text = models.TextField(verbose_name='Текст сообщения', help_text='Введите текст сообщения')
-
-    class Meta:
-        verbose_name = 'сообщение'
-        verbose_name_plural = 'сообщения'
+        verbose_name = 'статус рассылки'
+        verbose_name_plural = 'статусы рассылок'
 
 
 class Mailing(models.Model):
-    date_time_first_try = models.DateTimeField(verbose_name='Дата и время первой рассылки',
+    date_time_first_try = models.DateTimeField(default='1900-01-01', verbose_name='Дата и время первой рассылки',
                                                help_text='Введите дату и время первой рассылки')
     period = models.ForeignKey(Frequency, on_delete=models.CASCADE)
     status = models.ForeignKey(Log, on_delete=models.CASCADE)

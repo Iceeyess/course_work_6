@@ -8,10 +8,6 @@ from django.urls import reverse_lazy
 topic_name = ClientsConfig.name
 
 
-# class ClientLink:
-#     extra_context = {'title': topic_name}
-
-
 class ClientListView(ListView):
     model = Client
     paginate_by = 4
@@ -31,11 +27,16 @@ class ClientUpdateView(UpdateView):
     fields = '__all__'
 
 
+extra_context = {'topic_name': topic_name}  # Для возврата
+
+
 class ClientDetailView(DetailView):
     model = Client
     fields = '__all__'
+    extra_context = {'topic_name': topic_name}  # Для возврата
 
 
 class ClientDeleteView(DeleteView):
     model = Client
     success_url = reverse_lazy('clients:client_list')
+    extra_context = {'topic_name': topic_name}  # Для возврата
