@@ -8,7 +8,7 @@ from datetime import datetime
 
 class Frequency(models.Model):
     # Frequency - частота (периодичность) рассылки
-    period = models.CharField(default=False, verbose_name='Период', help_text='Введите период')
+    period = models.CharField(verbose_name='Период', help_text='Введите период')
 
     def __str__(self):
         return self.period
@@ -19,7 +19,7 @@ class Frequency(models.Model):
 
 
 class Log(models.Model):
-    date_time_last_try = models.DateField(default=datetime.now(), verbose_name='Дата и время последней попытки рассылки')
+    date_time_last_try = models.DateField(default='1900-01-01', verbose_name='Дата и время последней попытки рассылки')
     status = models.CharField(default=None, max_length=50, verbose_name='Статус рассылки')
     server_answer = models.CharField(default=None, max_length=100, verbose_name='Ответ от сервера')
 
@@ -32,10 +32,10 @@ class Log(models.Model):
 
 
 class Mailing(models.Model):
-    date_time_first_try = models.DateTimeField(default='1900-01-01', verbose_name='Дата и время первой рассылки',
-                                               help_text='Введите дату и время первой рассылки')
+    date_time_first_try = models.DateTimeField(default=datetime.now(), verbose_name='Дата и время первой рассылки',
+                                               help_text='Введите дату и время первой рассылки. По умолчанию - текущее время')
     period = models.ForeignKey(Frequency, on_delete=models.CASCADE)
-    status = models.ForeignKey(Log, on_delete=models.CASCADE)
+    status = models.ForeignKey(Log, on_delete=models.CASCADE, blank=True, null=True)
     message = models.ForeignKey(Communication, on_delete=models.CASCADE)
     client = models.ForeignKey(Client, on_delete=models.CASCADE)
 
