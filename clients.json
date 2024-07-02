@@ -1,0 +1,20 @@
+[
+{
+  "model": "clients.client",
+  "pk": 1,
+  "fields": {
+    "email": "ice_eyes@mail.ru",
+    "full_name": "Крашенинников Дмитрий Михайлович",
+    "comment": "Привет"
+  }
+},
+{
+  "model": "clients.client",
+  "pk": 2,
+  "fields": {
+    "email": "ice@asdadas.ru",
+    "full_name": "AFADfadf",
+    "comment": "sdfasdffsdff"
+  }
+}
+]

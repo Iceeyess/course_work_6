@@ -37,7 +37,7 @@ class Mailing(models.Model):
     period = models.ForeignKey(Frequency, on_delete=models.CASCADE)
     status = models.ForeignKey(Log, on_delete=models.CASCADE, blank=True, null=True)
     message = models.ForeignKey(Communication, on_delete=models.CASCADE)
-    client = models.ForeignKey(Client, on_delete=models.CASCADE)
+    client = models.ManyToManyField(Client, related_name='mailings')
 
     class Meta:
         verbose_name = 'рассылка'

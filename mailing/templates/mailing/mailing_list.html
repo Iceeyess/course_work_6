@@ -30,11 +30,11 @@
     {% for object in object_list %}
     <div class="card-body">
         <ul class="list-group list-group-flush">
-            <li class="list-group-item">{{ object.date_time_first_try }}</li>
-            <li class="list-group-item">{{ object.period }}</li>
-            <li class="list-group-item">{{ object.status }}</li>
-            <li class="list-group-item">{{ object.message }}</li>
-            <li class="list-group-item">{{ object.client }}</li>
+            <li class="list-group-item">Дата рассылки: {{ object.date_time_first_try }}</li>
+            <li class="list-group-item">Периодичность: {{ object.period }}</li>
+            <li class="list-group-item">Статус: {{ object.status }}</li>
+            <li class="list-group-item">Сообщение: {{ object.message }}</li>
+            <li class="list-group-item">Клиент: {{ object.client }}</li>
         </ul>
         <div class="row">
             <div class="col-3" style="width: 10rem;">

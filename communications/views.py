@@ -25,9 +25,7 @@ class CommunicationUpdateView(UpdateView):
     model = Communication
     fields = '__all__'
     success_url = reverse_lazy('communications:communication_list')
-
-
-extra_context = {'topic_name': topic_name}  # Для возврата
+    extra_context = {'topic_name': topic_name}  # Для возврата
 
 
 class CommunicationDetailView(DetailView):
