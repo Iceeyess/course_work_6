@@ -1,6 +1,6 @@
   <footer class="mt-auto text-white-50">
       {% if topic_name %}
-    <p><a href="{% url 'mailing:mailing_list' %}">Вернуться в {{ topic_name }}</a></p>
+    <p><a href="/{{ topic_name }}/">Вернуться в {{ topic_name }}</a></p>
       {% endif %}
     <p>Страница рассылок. Производство {% now 'Y' %}.</p>
   </footer>

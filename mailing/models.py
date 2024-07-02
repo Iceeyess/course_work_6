@@ -20,7 +20,7 @@ class Frequency(models.Model):
 
 class Log(models.Model):
     date_time_last_try = models.DateField(default='1900-01-01', verbose_name='Дата и время последней попытки рассылки')
-    status = models.CharField(default=None, max_length=50, verbose_name='Статус рассылки')
+    status = models.CharField(default="Не отправлялось", max_length=50, verbose_name='Статус рассылки')
     server_answer = models.CharField(default=None, max_length=100, verbose_name='Ответ от сервера')
 
     def __str__(self):

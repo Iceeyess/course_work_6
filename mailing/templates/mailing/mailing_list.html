@@ -34,7 +34,10 @@
             <li class="list-group-item">Периодичность: {{ object.period }}</li>
             <li class="list-group-item">Статус: {{ object.status }}</li>
             <li class="list-group-item">Сообщение: {{ object.message }}</li>
-            <li class="list-group-item">Клиент: {{ object.client }}</li>
+            <li class="list-group-item">Список клиентов:</li>
+            {% for client in object.client.all %}
+            <li class="list-group-item">Клиент: {{ client }}</li>
+            {% endfor %}
         </ul>
         <div class="row">
             <div class="col-3" style="width: 10rem;">
