@@ -20,35 +20,21 @@ class MailingListView(ListView):
 
 class MailingCreateView(CreateView):
     model = Mailing
-    fields = ('date_time_first_try', 'period', 'message', 'client')
+    fields = ('date_time_first_try', 'date_time_threshold', 'period', 'message', 'client')
     extra_context = {'topic_name': topic_name}  # Для возврата
     success_url = reverse_lazy('mailing:mailing_list')
-
-    def form_valid(self, form):
-        if form.is_valid():
-            self.object = form.save(commit=False)
-            self.object.save()
-            send_mail(
-                'Subject here',
-                'Here is the message.',
-                '21cfk8lf6gbp@mail.ru',
-                ['ice_eyes@mail.ru'],
-                fail_silently=False,
-            )
-        return super().form_valid(form)
-
 
 
 class MailingUpdateView(UpdateView):
     model = Mailing
-    fields = ('date_time_first_try', 'period', 'message', 'client', )
+    fields = ('date_time_first_try', 'date_time_threshold', 'period', 'message', 'client', )
     extra_context = {'topic_name': topic_name}  # Для возврата
     success_url = reverse_lazy('mailing:mailing_list')
 
 
 class MailingDetailView(DetailView):
     model = Mailing
-    fields = ('date_time_first_try', 'period', 'message', 'client', )
+    fields = ('date_time_first_try', 'date_time_threshold', 'period', 'message', 'client', )
     extra_context = {'topic_name': topic_name}  # Для возврата
 
 

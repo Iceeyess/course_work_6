@@ -34,6 +34,8 @@ class Log(models.Model):
 class Mailing(models.Model):
     date_time_first_try = models.DateTimeField(default=datetime.now(), verbose_name='Дата и время первой рассылки',
                                                help_text='Введите дату и время первой рассылки. По умолчанию - текущее время')
+    date_time_threshold = models.DateTimeField(default=datetime.now(), verbose_name='Дата и время окончания периода',
+                                               help_text='Введите дату и время окончания рассылок. По умолчанию - текущее время')
     period = models.ForeignKey(Frequency, on_delete=models.CASCADE)
     status = models.ForeignKey(Log, on_delete=models.CASCADE, blank=True, null=True)
     message = models.ForeignKey(Communication, on_delete=models.CASCADE)

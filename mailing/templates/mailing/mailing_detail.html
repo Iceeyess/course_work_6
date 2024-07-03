@@ -3,20 +3,22 @@
 {% block content %}
 <table class="table-dark">
     <thead class="thead-dark">
-        <tr>
-            <th scope="col">Дата рассылки</th>
-            <th scope="col">Периодичность</th>
-            <th scope="col">Статус</th>
-            <th scope="col">Сообщение</th>
-        </tr>
+    <tr>
+        <th scope="col">Дата рассылки</th>
+        <th scope="col">Дата окончания рассылки</th>
+        <th scope="col">Периодичность</th>
+        <th scope="col">Статус</th>
+        <th scope="col">Сообщение</th>
+    </tr>
     </thead>
     <tbody>
-        <tr>
-            <td>{{ object.date_time_first_try }}</td>
-            <td>{{ object.period }}</td>
-            <td>{{ object.status }}</td>
-            <td>{{ object.message|slice:100 }}...</td>
-        </tr>
+    <tr>
+        <td>{{ object.date_time_first_try }}</td>
+        <td>{{ object.date_time_threshold }}</td>
+        <td>{{ object.period }}</td>
+        <td>{{ object.status }}</td>
+        <td>{{ object.message|slice:100 }}...</td>
+    </tr>
     </tbody>
 </table>
 {% endblock %}

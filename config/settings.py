@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'mailing',
     'clients',
     'communications',
+    'django_crontab',   # Для автоматической рассылки
 ]
 
 MIDDLEWARE = [
