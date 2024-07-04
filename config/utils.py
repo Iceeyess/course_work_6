@@ -10,20 +10,22 @@ def get_send_mailing():
     time_zone = timezone(TIME_ZONE)
     mailing_list = Mailing.objects.all()
     for mailing in mailing_list:
-        period = datetime.strftime(mailing.period, '%Y-%m-%d %H:%M:%S+%f')
-        if (datetime.strptime(mailing.date_time_first_try, '%Y-%m-%d %H:%M:%S+%f') < datetime.now()
-                and datetime.now() < datetime.strptime(mailing.date_time_threshold, '%Y-%m-%d %H:%M:%S+%f')):
-            mailing.status.all.log.status = 'Отправлено'
-            mailing.date_time_first_try = datetime.now()
-            mailing.save()
+        period = int(mailing.period.period)
+        date_time_first_try = mailing.date_time_first_try
+        date_time_threshold = mailing.date_time_threshold
+        now = datetime.now(time_zone)
+        if date_time_first_try <= now and now < date_time_threshold:
             for client in mailing.client.all():
                 send_mail(
                     mailing.message.topic,
                     mailing.message.body,
                     EMAIL_HOST_USER,
-                    [mailing.client],
+                    [client.email],
                     fail_silently=False,
                 )
-            mailing.date_time_first_try
+            n = Status.objects.create()
+            mailing.status.log.status
+            mailing.date_time_first_try += timedelta(minutes=period)
+            mailing.save()
         else:
             continue
