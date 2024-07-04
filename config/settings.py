@@ -144,3 +144,7 @@ EMAIL_HOST_USER = "21cfk8lf6gbp@mail.ru"
 EMAIL_HOST_PASSWORD = "1NX21AcSLns2XUkuQbsv"
 EMAIL_USE_TLS = True
 EMAIL_USE_SSL = False
+
+CRONJOBS = [
+    ('*/1 * * * *', 'config.utils.get_send_mailing', ),
+]

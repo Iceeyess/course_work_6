@@ -6,9 +6,9 @@ from mailing.models import Mailing, Frequency
 
 @admin.register(Mailing)
 class MailingAdmin(admin.ModelAdmin):
-    list_display = ('date_time_first_try', 'period', 'status', )
+    list_display = ('date_time_attempt', 'date_time_threshold', 'period', 'status', )
     list_filter = ('status', )
-    search_fields = ('full_name', )
+    search_fields = ('status', )
 
 
 @admin.register(Frequency)
