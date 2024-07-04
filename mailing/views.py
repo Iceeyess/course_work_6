@@ -20,21 +20,21 @@ class MailingListView(ListView):
 
 class MailingCreateView(CreateView):
     model = Mailing
-    fields = ('date_time_first_try', 'date_time_threshold', 'period', 'message', 'client')
+    fields = ('date_time_attempt', 'date_time_threshold', 'period', 'message', 'client')
     extra_context = {'topic_name': topic_name}  # Для возврата
     success_url = reverse_lazy('mailing:mailing_list')
 
 
 class MailingUpdateView(UpdateView):
     model = Mailing
-    fields = ('date_time_first_try', 'date_time_threshold', 'period', 'message', 'client', )
+    fields = ('date_time_attempt', 'date_time_threshold', 'period', 'message', 'client', )
     extra_context = {'topic_name': topic_name}  # Для возврата
     success_url = reverse_lazy('mailing:mailing_list')
 
 
 class MailingDetailView(DetailView):
     model = Mailing
-    fields = ('date_time_first_try', 'date_time_threshold', 'period', 'message', 'client', )
+    fields = ('date_time_attempt', 'date_time_threshold', 'period', 'message', 'client', )
     extra_context = {'topic_name': topic_name}  # Для возврата
 
 
