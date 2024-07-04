@@ -9,15 +9,21 @@
         <a href="{% url 'communications:communication_list' %}" class="btn btn-dark">Вернуться к списку {{ topic }}</a>
     </div>
     <div class="row">
+        {% if object %}
+        <form action="{% url 'communications:communication_update' object.pk %}" method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-dark">Сохранить изменения</button>
+        </form>
+        {% else %}
         <form action="{% url 'communications:communication_create' %}" method="post">
             {% csrf_token %}
             {{ form.as_p }}
-            {% if object %}
-            <button type="submit" class="btn btn-dark">Сохранить изменения</button>
-            {% else %}
             <button type="submit" class="btn btn-dark">Создать сообщение</button>
-            {% endif %}
         </form>
+        {% endif %}
+
+
     </div>
 </div>
 

@@ -10,7 +10,7 @@ def get_send_mailing():
     time_zone = timezone(TIME_ZONE)
     mailing_list = Mailing.objects.all()
     for mailing in mailing_list:
-        period = datetime.str
+        period = datetime.strftime(mailing.period, '%Y-%m-%d %H:%M:%S+%f')
         if (datetime.strptime(mailing.date_time_first_try, '%Y-%m-%d %H:%M:%S+%f') < datetime.now()
                 and datetime.now() < datetime.strptime(mailing.date_time_threshold, '%Y-%m-%d %H:%M:%S+%f')):
             mailing.status.all.log.status = 'Отправлено'
