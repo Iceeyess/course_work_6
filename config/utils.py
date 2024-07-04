@@ -4,7 +4,7 @@ from django.core.mail import send_mass_mail
 from config.settings import EMAIL_HOST_USER
 from pytz import timezone
 from config.settings import TIME_ZONE
-from smtplib import (SMTPException, SMTPServerDisconnected, SMTPResponseException, SMTPSenderRefused,
+from smtplib import (SMTPServerDisconnected, SMTPResponseException, SMTPSenderRefused,
                      SMTPRecipientsRefused, SMTPDataError, SMTPConnectError, SMTPHeloError, SMTPNotSupportedError,
                      SMTPAuthenticationError)
 
@@ -23,7 +23,7 @@ def get_send_mailing() -> None:
             for client in mailing.client.all():
                 client_email_list += [client.email]     # Список email адресов клиентов
             log_instance = Log.objects.create()     # Создает экземпляр класса Log
-            mailing.log = log_instance
+            log_instance.mailing_relation = mailing
             try:
                 args = (mailing.message.topic,
                     mailing.message.body,
