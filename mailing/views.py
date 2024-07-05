@@ -3,7 +3,9 @@ from django.views.generic import ListView, TemplateView, CreateView, UpdateView,
 from .apps import MailingConfig
 from mailing.models import Mailing
 from django.urls import reverse_lazy
-from django.core.mail import send_mail
+from datetime import datetime
+from pytz import timezone
+from config.settings import TIME_ZONE
 
 # Create your views here.
 topic_name = MailingConfig.name
@@ -30,6 +32,21 @@ class MailingUpdateView(UpdateView):
     fields = ('date_time_attempt', 'date_time_threshold', 'period', 'message', 'client', )
     extra_context = {'topic_name': topic_name}  # Для возврата
     success_url = reverse_lazy('mailing:mailing_list')
+
+    def form_valid(self, form):
+        now = datetime.now(timezone(TIME_ZONE))  # Временная зон
+        if form.is_valid():
+            if (self.get_object().date_time_attempt < self.get_object().date_time_threshold and
+                    self.get_object().date_time_threshold > now):
+                # mail = Mailing.objects.get(pk=self.get_object().pk)
+                # Mailing.objects.filter(pk=self.get_object().pk).update(status='В ожидании')
+                # mail.status = 'В ожидании'
+                # mail.save(update_fields=['status'])
+                print(self.get_object().date_time_attempt, self.get_object().date_time_threshold, now)
+                mail = form.save()
+                mail.status = 'В ожидании'
+                mail.save()
+        return super().form_valid(form)
 
 
 class MailingDetailView(DetailView):

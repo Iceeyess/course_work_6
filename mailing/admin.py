@@ -1,5 +1,5 @@
 from django.contrib import admin
-from mailing.models import Mailing, Frequency
+from mailing.models import Mailing
 
 # Register your models here.
 
@@ -11,7 +11,7 @@ class MailingAdmin(admin.ModelAdmin):
     search_fields = ('status', )
 
 
-@admin.register(Frequency)
-class FrequencyAdmin(admin.ModelAdmin):
-    # Frequency - частота (периодичность) рассылки
-    list_display = ('id', 'period', )
+# @admin.register(Frequency)
+# class FrequencyAdmin(admin.ModelAdmin):
+#     # Frequency - частота (периодичность) рассылки
+#     list_display = ('id', 'period', )

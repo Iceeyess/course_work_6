@@ -11,24 +11,26 @@ NULLABLE = dict(null=True, blank=True)
 # Create your models here.
 
 
-class Frequency(models.Model):
-    # Frequency - частота (периодичность) рассылки
-    period = models.CharField(verbose_name='Период', help_text='Введите период')
-
-    def __str__(self):
-        return self.period
-
-    class Meta:
-        verbose_name = 'период'
-        verbose_name_plural = 'периоды'
+# class Frequency(models.Model):
+#     # Frequency - частота (периодичность) рассылки
+#     period = models.CharField(verbose_name='Период', help_text='Введите период')
+#
+#     def __str__(self):
+#         return self.period
+#
+#     class Meta:
+#         verbose_name = 'период'
+#         verbose_name_plural = 'периоды'
 
 
 class Mailing(models.Model):
+    period_choices = (86400, 'Раз в день'), (604800, 'Раз в неделю'), (2592000, 'Раз в месяц',)
     date_time_attempt = models.DateTimeField(default=datetime.now(), verbose_name='Дата и время первой рассылки',
                                              help_text='Введите дату и время первой рассылки. По умолчанию - текущее время')
     date_time_threshold = models.DateTimeField(default=datetime.now(), verbose_name='Дата и время окончания периода',
                                                help_text='Введите дату и время окончания рассылок. По умолчанию - текущее время')
-    period = models.ForeignKey(Frequency, on_delete=models.CASCADE)
+    period = models.IntegerField(default=86400, choices=period_choices, help_text='Укажите периодичность рассылки',
+                                 verbose_name='Период рассылки')
     status = models.CharField(max_length=100, default='В ожидании')
     message = models.ForeignKey(Communication, on_delete=models.CASCADE)
     client = models.ManyToManyField(Client, related_name='mailings')
@@ -45,14 +47,14 @@ class Mailing(models.Model):
 
 class Log(models.Model):
     date_time_last_attempt = models.DateTimeField(default=datetime.now(timezone(TIME_ZONE)), verbose_name='Дата '
-                                                                                        'и время последней попытки')
+                                                                                                          'и время последней попытки')
     status = models.CharField(default="Не отправлялось", max_length=50, verbose_name='Статус рассылки')
     server_code_response = models.IntegerField(verbose_name='Номер рассылки', **NULLABLE, )
     server_response = models.CharField(max_length=3000, verbose_name='Ответ от сервера', **NULLABLE, )
     mailing_relation = models.ForeignKey(Mailing, on_delete=models.SET_NULL, **NULLABLE)
 
     def __str__(self):
-        return self.server_response + ' ' + str(self.server_code_response)
+        return f"{self.server_response} {str(self.server_code_response)}"
 
     class Meta:
         verbose_name = 'статус рассылки'
