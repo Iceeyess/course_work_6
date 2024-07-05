@@ -14,7 +14,7 @@ def get_send_mailing() -> None:
     time_zone = timezone(TIME_ZONE)  # Временная зона Django server
     mailing_list = Mailing.objects.all()  # все рассылки
     for mailing in mailing_list:
-        period = int(mailing.period.period)  # Период в минутах
+        period = mailing.period  # Период в минутах
         date_time_attempt = mailing.date_time_attempt
         date_time_threshold = mailing.date_time_threshold
         now = datetime.now(time_zone)
@@ -50,7 +50,7 @@ def get_send_mailing() -> None:
                     mailing.status = 'Сообщение отправлено'
                     log_instance.server_response = 'No errors'
                 finally:
-                    mailing.date_time_attempt = now + timedelta(minutes=period)
+                    mailing.date_time_attempt = now + timedelta(seconds=period)
                     log_instance.date_time_last_attempt = now
                     log_instance.save(), mailing.save()
             # блок закрытия процесса рассылки:
