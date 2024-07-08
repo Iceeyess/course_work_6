@@ -39,11 +39,13 @@ def get_send_mailing() -> None:
                     log_instance.server_code_response = 500
                     log_instance.server_response = response
                     log_instance.status = 'Ожидает повторную отправку'
+                    mailing.status = 'Ожидает повторную отправку'
                 except (SMTPSenderRefused, SMTPAuthenticationError):
                     response = 'Ошибка отправки сообщения'
                     log_instance.server_code_response = 400
                     log_instance.server_response = response
                     log_instance.status = 'Ожидает повторную отправку'
+                    mailing.status = 'Ожидает повторную отправку'
                 else:
                     log_instance.server_code_response = 200
                     log_instance.status = 'Сообщение отправлено'
