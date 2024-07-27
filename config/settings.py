@@ -148,3 +148,10 @@ EMAIL_USE_SSL = False
 CRONJOBS = [
     ('*/1 * * * *', 'config.utils.get_send_mailing', ),
 ]
+
+# This topic tuple for active panel for header page in order to get visualization where are you placing at site
+TOPIC_TUPLE = (
+    'clients',
+    'mailing',
+    'communications',
+)

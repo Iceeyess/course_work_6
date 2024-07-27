@@ -5,7 +5,7 @@ from mailing.models import Mailing
 from django.urls import reverse_lazy
 from datetime import datetime
 from pytz import timezone
-from config.settings import TIME_ZONE
+from config.settings import TIME_ZONE, TOPIC_TUPLE
 
 # Create your views here.
 topic_name = MailingConfig.name
@@ -18,19 +18,25 @@ class MainTemplateView(TemplateView):
 class MailingListView(ListView):
     model = Mailing
     paginate_by = 4
-
+    extra_context = {'topic_name': topic_name,  # Для возврата в меню
+                     'TOPIC_TUPLE': TOPIC_TUPLE
+                     }
 
 class MailingCreateView(CreateView):
     model = Mailing
     fields = ('date_time_attempt', 'date_time_threshold', 'period', 'message', 'client')
-    extra_context = {'topic_name': topic_name}  # Для возврата
+    extra_context = {'topic_name': topic_name,  # Для возврата в меню
+                     'TOPIC_TUPLE': TOPIC_TUPLE
+                     }
     success_url = reverse_lazy('mailing:mailing_list')
 
 
 class MailingUpdateView(UpdateView):
     model = Mailing
     fields = ('date_time_attempt', 'date_time_threshold', 'period', 'message', 'client', )
-    extra_context = {'topic_name': topic_name}  # Для возврата
+    extra_context = {'topic_name': topic_name,  # Для возврата в меню
+                     'TOPIC_TUPLE': TOPIC_TUPLE
+                     }
     success_url = reverse_lazy('mailing:mailing_list')
 
     def form_valid(self, form):
@@ -52,10 +58,14 @@ class MailingUpdateView(UpdateView):
 class MailingDetailView(DetailView):
     model = Mailing
     fields = ('date_time_attempt', 'date_time_threshold', 'period', 'message', 'client', )
-    extra_context = {'topic_name': topic_name}  # Для возврата
+    extra_context = {'topic_name': topic_name,  # Для возврата в меню
+                     'TOPIC_TUPLE': TOPIC_TUPLE
+                     }
 
 
 class MailingDeleteView(DeleteView):
     model = Mailing
-    extra_context = {'topic_name': topic_name}  # Для возврата
+    extra_context = {'topic_name': topic_name,  # Для возврата в меню
+                     'TOPIC_TUPLE': TOPIC_TUPLE
+                     }
     success_url = reverse_lazy('mailing:mailing_list')
