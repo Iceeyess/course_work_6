@@ -22,6 +22,7 @@ class MailingListView(ListView):
                      'TOPIC_TUPLE': TOPIC_TUPLE
                      }
 
+
 class MailingCreateView(CreateView):
     model = Mailing
     fields = ('date_time_attempt', 'date_time_threshold', 'period', 'message', 'client')
@@ -29,6 +30,7 @@ class MailingCreateView(CreateView):
                      'TOPIC_TUPLE': TOPIC_TUPLE
                      }
     success_url = reverse_lazy('mailing:mailing_list')
+
 
 
 class MailingUpdateView(UpdateView):

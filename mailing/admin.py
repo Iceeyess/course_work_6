@@ -10,8 +10,3 @@ class MailingAdmin(admin.ModelAdmin):
     list_filter = ('status', )
     search_fields = ('status', )
 
-
-# @admin.register(Frequency)
-# class FrequencyAdmin(admin.ModelAdmin):
-#     # Frequency - частота (периодичность) рассылки
-#     list_display = ('id', 'period', )

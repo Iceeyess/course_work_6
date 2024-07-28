@@ -1,6 +1,7 @@
 <header class="mb-auto">
     <div>
-        <h3 class="float-md-start mb-0"><a class="nav-link active" aria-current="page" href="{% url 'main:main_page' %}">Sky рассылки</a></h3>
+        <h3 class="float-md-start mb-0"><a class="nav-link active" aria-current="page"
+                                           href="{% url 'main:main_page' %}">Sky рассылки</a></h3>
         <nav class="nav nav-masthead justify-content-center float-md-end">
             {% if TOPIC_TUPLE.0 == topic_name %}
             <a class="nav-link active" aria-current="page" href="{% url 'clients:client_list' %}">Наши клиенты</a>
@@ -19,6 +20,33 @@
             {% else %}
             <a class="nav-link" href="{% url 'communications:communication_list' %}">Сообщения</a>
             {% endif %}
+
+            {# Блок проверки авторизован пользователь или нет #}
+            {% if request.user.is_authenticated %}
+            <h5 class="bg-info text-white align-content-center">{{ user.username }}</h5>
+            <form method="post" action="{% url 'users:logout' %}">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-primary btn-sm">Выйти</button>
+            </form>
+            {% else %}
+                {% if TOPIC_TUPLE.3 == topic_name %}
+                <a class="nav-link active" href="{% url 'users:login' %}">Авторизация</a>
+                {% else %}
+                <a class="nav-link" href="{% url 'users:login' %}">Авторизация</a>
+                {% endif %}
+            {% endif %}
+
+
+
+
+
+
+
+
+
+
+
+
         </nav>
     </div>
 </header>
