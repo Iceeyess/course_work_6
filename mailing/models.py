@@ -24,12 +24,13 @@ NULLABLE = dict(null=True, blank=True)
 
 
 class Mailing(models.Model):
-    period_choices = (86400, 'Раз в день'), (604800, 'Раз в неделю'), (2592000, 'Раз в месяц',)
+    # period_choices = (86400, 'Раз в день'), (604800, 'Раз в неделю'), (2592000, 'Раз в месяц',)
+    period_choices = (60, 'Раз в минуту'), (60 * 3, 'Раз в 3 минуты'), (60 * 5, 'Раз в 5 минут',)
     date_time_attempt = models.DateTimeField(default=datetime.now(), verbose_name='Дата и время первой рассылки',
                                              help_text='Введите дату и время первой рассылки. По умолчанию - текущее время')
     date_time_threshold = models.DateTimeField(default=datetime.now(), verbose_name='Дата и время окончания периода',
                                                help_text='Введите дату и время окончания рассылок. По умолчанию - текущее время')
-    period = models.IntegerField(default=86400, choices=period_choices, help_text='Укажите периодичность рассылки',
+    period = models.IntegerField(default=period_choices[2], choices=period_choices, help_text='Укажите периодичность рассылки',
                                  verbose_name='Период рассылки')
     status = models.CharField(max_length=100, default='В ожидании')
     message = models.ForeignKey(Communication, on_delete=models.CASCADE)
