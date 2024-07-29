@@ -1,10 +1,11 @@
 from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView
-from django.shortcuts import render
-from django.urls import reverse_lazy
+from django.shortcuts import render, get_object_or_404, redirect
+from django.urls import reverse_lazy, reverse
 from django.views.generic import CreateView, UpdateView
 
+from config.services import send_registration_email
 from config.settings import TOPIC_TUPLE
 from users.apps import UsersConfig
 from users.forms import UserLoginForm, UserRegistrationForm, UserProfileForm
@@ -39,7 +40,19 @@ class UserRegisterView(CreateView):
         user = form.save()
         user.is_active = False
         user.token = secrets.token_hex(16)
+        host = self.request.get_host()
+        user.save()
+        url = f'http://{host}/users/email-confirm/{user.token}/'
+        send_registration_email(form.cleaned_data, url)
+        return super().form_valid(form)
 
+
+def email_verification(request, token):
+    user = get_object_or_404(User, token=token)
+    if user:
+        user.is_active = True
+        user.save()
+        return redirect(reverse('users:login'))
 
 
 class UserProfileView(LoginRequiredMixin, UpdateView):
@@ -53,3 +66,7 @@ class UserProfileView(LoginRequiredMixin, UpdateView):
 
     def get_success_url(self):
         return reverse_lazy('mailing:mailing_list')
+
+
+
+
