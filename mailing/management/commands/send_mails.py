@@ -1,5 +1,5 @@
 from django.core.management import BaseCommand
-from config.utils import get_send_mailing
+from config.services import get_send_mailing
 
 
 class Command(BaseCommand):
