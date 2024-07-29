@@ -23,7 +23,8 @@
 
             {# Блок проверки авторизован пользователь или нет #}
             {% if request.user.is_authenticated %}
-            <h5 class="bg-info text-white align-content-center">{{ user.username }}</h5>
+            <h5 class="bg-info text-white align-content-center"><a href="{% url 'users:profile' user.pk %}">
+                {{ user.username }}</a></h5>
             <form method="post" action="{% url 'users:logout' %}">
                 {% csrf_token %}
                 <button type="submit" class="btn btn-primary btn-sm">Выйти</button>
