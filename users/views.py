@@ -42,7 +42,7 @@ class UserRegisterView(CreateView):
         user.token = secrets.token_hex(16)
         host = self.request.get_host()
         user.save()
-        url = f'http://{host}/users/email-confirm/{user.token}/'
+        url = f'http://{host}/users/registration-email-confirm/{user.token}/'
         send_registration_email(form.cleaned_data, url)
         return super().form_valid(form)
 

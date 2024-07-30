@@ -15,16 +15,16 @@ urlpatterns = [
     path('profile/<int:pk>/', views.UserProfileView.as_view(), name='profile'),
     path('registration-email-confirm/<str:token>/', email_verification, name='email-confirm'),
     # Восстановление пароля:
-    path('password-reset/', PasswordResetView.as_view(template_name='users/password-reset-form.html',
-                                                      email_template_name='users/password-reset-email.html',
+    path('password_reset/', PasswordResetView.as_view(template_name='users/password_reset_form.html',
+                                                      email_template_name='users/password_reset_email.html',
                                                       success_url=reverse_lazy('users:password_reset_done')),
          name='password_reset'),
-    path('password-reset/done/', PasswordResetDoneView.as_view(template_name='users/password-reset-done.html'),
+    path('password_reset/done/', PasswordResetDoneView.as_view(template_name='users/password_reset_done.html'),
          name='password_reset_done'),
-    path('password-reset/<uidb64>/<token>/', PasswordResetConfirmView.as_view(
-        template_name='users/password-reset-confirm.html', success_url=reverse_lazy('users:password_reset_confirm')),
-         name='password_reset_confirm'),
-    path('password-reset/complete/', PasswordResetCompleteView.as_view(
-        template_name='users/password-reset-complete.html'), name='password_reset_complete'),
+    path('password_reset/<uidb64>/<token>/', PasswordResetConfirmView.as_view(
+        template_name='users/password_reset_confirm.html', success_url=reverse_lazy('users:password_reset_complete')),
+         name='password_reset_confirm', extra_context={'uidb64': 'uidb64', 'token': 'token'}),
+    path('password_reset/complete/', PasswordResetCompleteView.as_view(
+        template_name='users/password_reset_complete.html'), name='password_reset_complete'),
 
 ]
