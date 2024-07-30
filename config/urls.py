@@ -19,6 +19,7 @@ from django.contrib import admin
 from django.urls import path, include
 
 from config import settings
+from users.views import email_verification
 
 urlpatterns = [
     path('admin/', admin.site.urls),

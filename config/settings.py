@@ -15,18 +15,27 @@ import os
 from mailing.apps import MailingConfig
 from clients.apps import ClientsConfig
 from communications.apps import CommunicationsConfig
+from dotenv import load_dotenv
+
+from users.apps import UsersConfig
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+# Load environment variables from.env file
+dot_env = os.path.join(BASE_DIR, '.env')
+load_dotenv(dotenv_path=dot_env)
+
+
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-3x+==b3mlg=a#(#c7$q@4^&)j#-q^_m3)u$-2idtt+o5wqsdw#'
+SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv('DEBUG')
 
 ALLOWED_HOSTS = []
 
@@ -65,6 +74,7 @@ TEMPLATES = [
             os.path.join(BASE_DIR, MailingConfig.name, 'templates'),
             os.path.join(BASE_DIR, ClientsConfig.name, 'templates'),
             os.path.join(BASE_DIR, CommunicationsConfig.name, 'templates'),
+            os.path.join(BASE_DIR, UsersConfig.name, 'templates'),  # для шаблонов в папке users
         ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -83,14 +93,15 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
+#  local database settings
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'HOST': '127.0.0.1',
-        'NAME': 'mailing',
-        'USER': 'postgres',
-        'PASSWORD': 'Herbalife1',
-        'PORT': 5432,
+        'ENGINE': os.getenv('DATABASE_ENGINE'),
+        'HOST': os.getenv('DATABASE_HOST'),
+        'NAME': os.getenv('DATABASE_NAME'),
+        'USER': os.getenv('DATABASE_USER'),
+        'PASSWORD': os.getenv('DATABASE_PASSWORD'),
+        'PORT': os.getenv('DATABASE_PORT'),
     }
 }
 
@@ -139,12 +150,13 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, MEDIA_URL[1:])
 
-EMAIL_HOST = 'smtp.mail.ru'
-EMAIL_PORT = 2525
-EMAIL_HOST_USER = "21cfk8lf6gbp@mail.ru"
-EMAIL_HOST_PASSWORD = "1NX21AcSLns2XUkuQbsv"
-EMAIL_USE_TLS = True
-EMAIL_USE_SSL = False
+#  email settings are hidden
+EMAIL_HOST = os.getenv('EMAIL_HOST')
+EMAIL_PORT = os.getenv('EMAIL_PORT')
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
+EMAIL_USE_TLS = os.getenv('EMAIL_USE_TLS')
+EMAIL_USE_SSL = os.getenv('EMAIL_USE_SSL')
 # settings for email sent in background without sending in fact.
 EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
 EMAIL_FILE_PATH = os.path.join(BASE_DIR, 'sending_emails_log')
@@ -168,3 +180,11 @@ LOGIN_REDIRECT_URL = 'mailing:mailing_list'
 LOGIN_URL = "users:login"
 LOGOUT_REDIRECT_URL = "mailing:mailing_list"
 
+CACHE_ENABLED = True
+if CACHE_ENABLED:
+    CACHES = {
+        "default": {
+            "BACKEND": "django.core.cache.backends.redis.RedisCache",
+            "LOCATION": os.getenv('CACHE_LOCATION'),
+        }
+    }

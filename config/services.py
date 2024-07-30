@@ -1,3 +1,4 @@
+import os
 from datetime import datetime, timedelta
 from mailing.models import Mailing, Log
 from django.core.mail import send_mail
@@ -63,3 +64,21 @@ def get_send_mailing() -> None:
                 mailing.date_time_attempt = now
                 mailing.save()
 
+
+def send_registration_email(form, link) -> None:
+    subject = 'Registration is done in Sky mailing.'
+    body = f'''Congratulations, {form['first_name']}.
+    You have been registered at the Sky mailing resource.
+    Here are output credentials:
+    Your email: {form['email']}.
+    Your password: {form['password1']}.
+    Your first name: {form['first_name']}
+    Your last name: {form['last_name']}.
+    Please follow the link to complete registration and approve.
+    {link}
+    regards,
+    Administration'''
+
+    email_sender = os.getenv('EMAIL_HOST_USER')
+    email_receiver = form['email']
+    send_mail(subject=subject, message=body, from_email=email_sender, recipient_list=[email_receiver])
