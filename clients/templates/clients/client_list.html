@@ -27,7 +27,7 @@
     <div class="row">
         <a href="{% url 'clients:client_create' %}" class="btn btn-dark"><h4>Добавить клиента</h4></a>
     </div>
-    {% for object in object_list %}
+    {% for object in clients_list %}
     <div class="card-body">
         <ul class="list-group list-group-flush">
             <li class="list-group-item">{{ object.full_name }}</li>
