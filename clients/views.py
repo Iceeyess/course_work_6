@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render
 
 from config.settings import TOPIC_TUPLE
@@ -6,11 +7,13 @@ from django.views.generic import ListView, CreateView, UpdateView, DeleteView, D
 from clients.models import Client
 from django.urls import reverse_lazy
 
+from .forms import ClientForm
+
 # Create your views here.
 topic_name = ClientsConfig.name
 
 
-class ClientListView(ListView):
+class ClientListView(LoginRequiredMixin, ListView):
     model = Client
     paginate_by = 4
     extra_context = {'topic_name': topic_name,  # Для возврата в меню
@@ -18,33 +21,41 @@ class ClientListView(ListView):
                      }
 
 
-class ClientCreateView(CreateView):
+class ClientCreateView(LoginRequiredMixin, CreateView):
     model = Client
-    fields = '__all__'
+    form_class = ClientForm
     success_url = reverse_lazy('clients:client_list')
     extra_context = {'topic_name': topic_name,  # Для возврата в меню
                      'TOPIC_TUPLE': TOPIC_TUPLE
                      }
 
+    def form_valid(self, form):
+        if form.is_valid():
+            client = form.save()
+            client.owner = self.request.user
+            client.save()
+            return super().form_valid(form)
 
-class ClientUpdateView(UpdateView):
+
+class ClientUpdateView(LoginRequiredMixin, UpdateView):
     model = Client
     success_url = reverse_lazy('clients:client_list')
-    fields = '__all__'
+    form_class = ClientForm
+
     extra_context = {'topic_name': topic_name,  # Для возврата в меню
                      'TOPIC_TUPLE': TOPIC_TUPLE
                      }
 
 
-class ClientDetailView(DetailView):
+class ClientDetailView(LoginRequiredMixin, DetailView):
     model = Client
-    fields = '__all__'
+    form_class = ClientForm
     extra_context = {'topic_name': topic_name,  # Для возврата в меню
                      'TOPIC_TUPLE': TOPIC_TUPLE
                      }
 
 
-class ClientDeleteView(DeleteView):
+class ClientDeleteView(LoginRequiredMixin, DeleteView):
     model = Client
     success_url = reverse_lazy('clients:client_list')
     extra_context = {'topic_name': topic_name,  # Для возврата в меню

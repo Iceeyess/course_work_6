@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render
 from django.views.generic import ListView, TemplateView, CreateView, UpdateView, DetailView, DeleteView
 from .apps import MailingConfig
@@ -6,6 +7,7 @@ from django.urls import reverse_lazy
 from datetime import datetime
 from pytz import timezone
 from config.settings import TIME_ZONE, TOPIC_TUPLE
+from .forms import MailingForm
 
 # Create your views here.
 topic_name = MailingConfig.name
@@ -15,7 +17,7 @@ class MainTemplateView(TemplateView):
     template_name = f'{topic_name}/index.html'
 
 
-class MailingListView(ListView):
+class MailingListView(LoginRequiredMixin, ListView):
     model = Mailing
     paginate_by = 4
     extra_context = {'topic_name': topic_name,  # Для возврата в меню
@@ -23,19 +25,25 @@ class MailingListView(ListView):
                      }
 
 
-class MailingCreateView(CreateView):
+class MailingCreateView(LoginRequiredMixin, CreateView):
     model = Mailing
-    fields = ('date_time_attempt', 'date_time_threshold', 'period', 'message', 'client')
+    form_class = MailingForm
     extra_context = {'topic_name': topic_name,  # Для возврата в меню
                      'TOPIC_TUPLE': TOPIC_TUPLE
                      }
     success_url = reverse_lazy('mailing:mailing_list')
 
+    def form_valid(self, form):
+        if form.is_valid():
+            client = form.save()
+            client.owner = self.request.user
+            client.save()
+            return super().form_valid(form)
 
 
-class MailingUpdateView(UpdateView):
+class MailingUpdateView(LoginRequiredMixin, UpdateView):
     model = Mailing
-    fields = ('date_time_attempt', 'date_time_threshold', 'period', 'message', 'client', )
+    form_class = MailingForm
     extra_context = {'topic_name': topic_name,  # Для возврата в меню
                      'TOPIC_TUPLE': TOPIC_TUPLE
                      }
@@ -57,15 +65,15 @@ class MailingUpdateView(UpdateView):
         return super().form_valid(form)
 
 
-class MailingDetailView(DetailView):
+class MailingDetailView(LoginRequiredMixin, DetailView):
     model = Mailing
-    fields = ('date_time_attempt', 'date_time_threshold', 'period', 'message', 'client', )
+    form_class = MailingForm
     extra_context = {'topic_name': topic_name,  # Для возврата в меню
                      'TOPIC_TUPLE': TOPIC_TUPLE
                      }
 
 
-class MailingDeleteView(DeleteView):
+class MailingDeleteView(LoginRequiredMixin, DeleteView):
     model = Mailing
     extra_context = {'topic_name': topic_name,  # Для возврата в меню
                      'TOPIC_TUPLE': TOPIC_TUPLE
