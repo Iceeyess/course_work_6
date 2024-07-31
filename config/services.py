@@ -13,7 +13,7 @@ from smtplib import (SMTPServerDisconnected, SMTPResponseException, SMTPSenderRe
 def get_send_mailing() -> None:
     """Функция отправки рассылки."""
     time_zone = timezone(TIME_ZONE)  # Временная зона Django server
-    mailing_list = Mailing.objects.all()  # все рассылки
+    mailing_list = Mailing.objects.filter(is_active=True)  # все рассылки
     for mailing in mailing_list:
         period = mailing.period  # Период в минутах
         date_time_attempt = mailing.date_time_attempt

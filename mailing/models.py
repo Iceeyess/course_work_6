@@ -24,6 +24,7 @@ class Mailing(models.Model):
     message = models.ForeignKey(Communication, on_delete=models.CASCADE, verbose_name='Сообщение рассылки')
     client = models.ManyToManyField(Client, related_name='mailings', verbose_name='Клиент рассылки')
     owner = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Владелец записи', **NULLABLE)
+    is_active = models.BooleanField(default=True, verbose_name='Статус рассылки')
 
     def __str__(self):
         return (f'Дата попытки последней рассылки{self.date_time_attempt}, дата и время окончания рассылки '
@@ -33,6 +34,14 @@ class Mailing(models.Model):
         verbose_name = 'рассылка'
         verbose_name_plural = 'рассылки'
         ordering = ('pk',)
+        permissions = [
+            (
+                "view_any_mailing", "Может просматривать любые рассылки"
+            ),
+            (
+                "disable_mailing", "Может отключать рассылки"
+            ),
+        ]
 
 
 class Log(models.Model):

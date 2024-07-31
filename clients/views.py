@@ -1,4 +1,6 @@
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+
+from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import render
 
 from config.settings import TOPIC_TUPLE
@@ -8,6 +10,7 @@ from clients.models import Client
 from django.urls import reverse_lazy
 
 from .forms import ClientForm
+from django.contrib.auth.models import Permission, Group
 
 # Create your views here.
 topic_name = ClientsConfig.name
@@ -19,9 +22,18 @@ class ClientListView(LoginRequiredMixin, ListView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
+        # Блок проверки прав, если пользователь имеет права группы managers, то получает все объекты Client
+        # иначе получает только те, которые принадлежат текущему пользователю
+        try:
+            #  Если пользователь - суперюзер, то он и так должен видеть всех клиентов, если входит в группу managers,
+            # то он должен видеть тоже всех клиентов, иначе(падает в ошибку) -  только собственных клиентов
+            if self.request.user.is_superuser or self.request.user.groups.get(name='managers'):
+                context['clients_list'] = Client.objects.all()
+        except ObjectDoesNotExist:
+            context['clients_list'] = Client.objects.filter(
+                owner=self.request.user)  # список всех клиентов созданных юзером
         context['topic_name'] = topic_name  # Для возврата в меню
         context['TOPIC_TUPLE'] = TOPIC_TUPLE  # Для визуального переключения разделов в шаблоне
-        context['clients_list'] = Client.objects.filter(owner=self.request.user) # список всех клиентов созданных юзером
         return context
 
 
