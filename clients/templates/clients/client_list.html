@@ -27,7 +27,7 @@
     <div class="row">
         <a href="{% url 'clients:client_create' %}" class="btn btn-dark"><h4>Добавить клиента</h4></a>
     </div>
-    {% for object in clients_list %}
+    {% for object in object_list %}
     <div class="card-body">
         <ul class="list-group list-group-flush">
             <li class="list-group-item">{{ object.full_name }}</li>
@@ -36,14 +36,20 @@
         </ul>
         <div class="row">
             <div class="col-3" style="width: 10rem;">
+                {% if user.is_superuser or user == object.owner %}
                 <a href="{% url 'clients:client_update' object.pk %}" class="btn btn-dark">Редактировать</a>
             </div>
+            {% endif %}
+            {% if user.is_superuser or user == object.owner %}
             <div class="col-3" style="width: 10rem;">
                 <a href="{% url 'clients:client_detail' object.pk %}" class="btn btn-dark">Просмотр</a>
             </div>
+            {% endif %}
+            {% if user.is_superuser or user == object.owner %}
             <div class="col-3" style="width: 10rem;">
                 <a href="{% url 'clients:client_delete' object.pk %}" class="btn btn-dark">Удалить</a>
             </div>
+            {% endif %}
         </div>
     </div>
     {% endfor %}

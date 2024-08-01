@@ -1,8 +1,9 @@
-from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import render
 
+from config.services import UserPassThroughTestMixin  #  кастомный переопределенный класс
 from config.settings import TOPIC_TUPLE
 from .apps import ClientsConfig
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView, DetailView, TemplateView
@@ -19,22 +20,21 @@ topic_name = ClientsConfig.name
 class ClientListView(LoginRequiredMixin, ListView):
     model = Client
     paginate_by = 4
+    extra_context = {'topic_name': topic_name,  # Для возврата в меню
+                     'TOPIC_TUPLE': TOPIC_TUPLE
+                     }
 
-    def get_context_data(self, *, object_list=None, **kwargs):
-        context = super().get_context_data(**kwargs)
+    def get_queryset(self):
+        queryset = super().get_queryset()
         # Блок проверки прав, если пользователь имеет права группы managers, то получает все объекты Client
         # иначе получает только те, которые принадлежат текущему пользователю
         try:
-            #  Если пользователь - суперюзер, то он и так должен видеть всех клиентов, если входит в группу managers,
-            # то он должен видеть тоже всех клиентов, иначе(падает в ошибку) -  только собственных клиентов
+            #  Если пользователь - superuser, то он и так должен видеть всех клиентов, если входит в группу managers,
+            # то он должен видеть тоже всех клиентов, иначе(падает в ошибку) - только собственных клиентов
             if self.request.user.is_superuser or self.request.user.groups.get(name='managers'):
-                context['clients_list'] = Client.objects.all()
+                return queryset
         except ObjectDoesNotExist:
-            context['clients_list'] = Client.objects.filter(
-                owner=self.request.user)  # список всех клиентов созданных юзером
-        context['topic_name'] = topic_name  # Для возврата в меню
-        context['TOPIC_TUPLE'] = TOPIC_TUPLE  # Для визуального переключения разделов в шаблоне
-        return context
+            return queryset.filter(owner=self.request.user)  # список всех клиентов созданных юзером
 
 
 class ClientCreateView(LoginRequiredMixin, CreateView):
@@ -53,7 +53,7 @@ class ClientCreateView(LoginRequiredMixin, CreateView):
             return super().form_valid(form)
 
 
-class ClientUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
+class ClientUpdateView(LoginRequiredMixin, UserPassThroughTestMixin, UpdateView):
     model = Client
     success_url = reverse_lazy('clients:client_list')
     form_class = ClientForm
@@ -61,22 +61,30 @@ class ClientUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     extra_context = {'topic_name': topic_name,  # Для возврата в меню
                      'TOPIC_TUPLE': TOPIC_TUPLE
                      }
-    permission_required = 'clients.change_client'
+
+    def test_func(self):
+        # Если юзер - superuser или создатель клиента, то может редактировать клиента
+        owner = self.get_object().owner
+        return self.request.user.is_superuser or self.request.user == owner
 
 
-class ClientDetailView(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
+class ClientDetailView(LoginRequiredMixin, UserPassThroughTestMixin, DetailView):
     model = Client
     form_class = ClientForm
     extra_context = {'topic_name': topic_name,  # Для возврата в меню
                      'TOPIC_TUPLE': TOPIC_TUPLE
                      }
-    permission_required = 'clients.view_client'
 
 
-class ClientDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
+class ClientDeleteView(LoginRequiredMixin, UserPassThroughTestMixin, DeleteView):
     model = Client
     success_url = reverse_lazy('clients:client_list')
     extra_context = {'topic_name': topic_name,  # Для возврата в меню
                      'TOPIC_TUPLE': TOPIC_TUPLE
                      }
-    permission_required = 'clients.delete_client'
+
+    def test_func(self):
+        # Если юзер - superuser или создатель клиента, то может удалить клиента
+        owner = self.get_object().owner
+        return self.request.user.is_superuser or self.request.user == owner
+

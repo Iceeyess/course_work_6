@@ -1,10 +1,18 @@
 from django import forms
 from django.forms import ModelForm
 
+from clients.models import Client
+from communications.models import Communication
 from mailing.models import Mailing
 
 
 class MailingForm(ModelForm):
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['message'].queryset = Communication.objects.filter(owner=self.instance.owner)
+        self.fields['client'].queryset = Client.objects.filter(owner=self.instance.owner)
+
     class Meta:
         model = Mailing
         fields = ['date_time_attempt', 'date_time_threshold', 'period', 'message', 'client', ]

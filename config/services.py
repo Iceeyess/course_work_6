@@ -1,5 +1,8 @@
 import os
 from datetime import datetime, timedelta
+
+from django.contrib.auth.mixins import UserPassesTestMixin
+
 from mailing.models import Mailing, Log
 from django.core.mail import send_mail
 from config.settings import EMAIL_HOST_USER
@@ -82,3 +85,13 @@ def send_registration_email(form, link) -> None:
     email_sender = os.getenv('EMAIL_HOST_USER')
     email_receiver = form['email']
     send_mail(subject=subject, message=body, from_email=email_sender, recipient_list=[email_receiver])
+
+
+class UserPassThroughTestMixin(UserPassesTestMixin):
+    """Переопределенный класс для следующих приложений: clients, mailing, communications.
+    Данный класс для проверки представлений на соответствие пользователя"""
+
+    def test_func(self):
+        # Если юзер - superuser или создатель сообщения, то может редактировать сообщение
+        owner = self.get_object().owner
+        return self.request.user.is_superuser or self.request.user == owner

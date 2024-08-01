@@ -42,14 +42,20 @@
         </ul>
         <div class="row">
             <div class="col-3" style="width: 10rem;">
+                {% if user.is_superuser or user == object.owner %}
                 <a href="{% url 'mailing:mailing_update' object.pk %}" class="btn btn-dark">Редактировать</a>
             </div>
+                {% endif %}
+                {% if user.is_superuser or user == object.owner or user.has_perms('managers')%}
             <div class="col-3" style="width: 10rem;">
                 <a href="{% url 'mailing:mailing_detail' object.pk %}" class="btn btn-dark">Просмотр</a>
             </div>
+                {% endif %}
+                {% if user.is_superuser or user == object.owner %}
             <div class="col-3" style="width: 10rem;">
                 <a href="{% url 'mailing:mailing_delete' object.pk %}" class="btn btn-dark">Удалить</a>
             </div>
+                {% endif %}
         </div>
     </div>
     {% endfor %}
