@@ -27,6 +27,7 @@ class MailingListView(LoginRequiredMixin, ListView):
     extra_context = {'topic_name': topic_name,  # Для возврата в меню
                      'TOPIC_TUPLE': TOPIC_TUPLE
                      }
+    context_object_name = 'mailing'
 
     def get_queryset(self):
         queryset = super().get_queryset()
@@ -63,6 +64,7 @@ class MailingCreateView(LoginRequiredMixin, CreateView):
 
 
 class MailingUpdateView(LoginRequiredMixin, UserPassThroughTestMixin, UpdateView):
+    """Логика прав находится в кастомном миксине UserPassThroughTestMixin из-за DRY"""
     model = Mailing
     form_class = MailingForm
     extra_context = {'topic_name': topic_name,  # Для возврата в меню
@@ -82,6 +84,7 @@ class MailingUpdateView(LoginRequiredMixin, UserPassThroughTestMixin, UpdateView
 
 
 class MailingDetailView(LoginRequiredMixin, DetailView):
+    """Здесь логика проверки прав пользователей прописана иначе, чем в MailingUpdateView и MailingDeleteView"""
     model = Mailing
     form_class = MailingForm
     extra_context = {'topic_name': topic_name,  # Для возврата в меню
@@ -89,9 +92,11 @@ class MailingDetailView(LoginRequiredMixin, DetailView):
                      }
 
     def get_object(self, queryset=None):
+        """"""
         mail = super().get_object()
         try:
-            if self.request.user.is_superuser or self.request.user.groups.get(name='managers'):
+            if self.request.user.is_superuser or self.request.user == mail.owner or self.request.user.groups.get(
+                    name='managers'):
                 return mail
         except ObjectDoesNotExist:
             raise PermissionDenied('У вас нет доступа к этому сообщению.')

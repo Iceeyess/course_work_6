@@ -32,3 +32,7 @@ class User(AbstractUser):
                 "disable_user", "Может блокировать пользователей сервиса"
             ),
         ]
+
+    @property
+    def is_in_group(self):
+        return self.groups.filter(name='managers').exists()
