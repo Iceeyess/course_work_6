@@ -58,7 +58,7 @@
             </div>
                 {% endif %}
             <div class="col-3" style="width:10">
-            {% if request.user.is_in_manager_group %}
+            {% if request.user.is_in_manager_group or user.is_superuser %}
                 {% if object.is_active %}
                 <a class="btn btn-outline-light btn-sm" href="{% url 'mailing:toggle_activity' object.pk %}">Деактивировать</a>
                 {% else %}

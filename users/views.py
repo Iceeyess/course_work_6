@@ -90,6 +90,7 @@ class UsersList(LoginRequiredMixin, IsUserManagerOrSuperUser, ListView):
 
 
 def manage_user_status(request, pk):
+    """Функция-представление смены статуса пользователя"""
     user = get_object_or_404(User, pk=pk)
     if user.pk == request.user.pk:
         return redirect(reverse('users:users_list'))

@@ -2,23 +2,63 @@ from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMix
 from django.core.exceptions import ObjectDoesNotExist, PermissionDenied
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import ListView, TemplateView, CreateView, UpdateView, DetailView, DeleteView
-
+from django.core.cache import cache
+from blog.models import Blog
+from clients.models import Client
 from config.services import UserPassThroughTestMixin
 from .apps import MailingConfig
 from mailing.models import Mailing
 from django.urls import reverse_lazy
 from datetime import datetime
 from pytz import timezone
-from config.settings import TIME_ZONE, TOPIC_TUPLE
+import random
+from config.settings import TIME_ZONE, TOPIC_TUPLE, CACHE_ENABLED
 from .forms import MailingForm
 
 # Create your views here.
 topic_name = MailingConfig.name
 
 
-class MainTemplateView(TemplateView):
-    """Главная страница"""
+def get_index(request):
+    """Главная страница показывающая количество блогов в quantity_objects"""
     template_name = f'{topic_name}/index.html'
+    quantity_objects = 3
+    #  Часть кода по кеширования объекта quantity_mailing
+    if CACHE_ENABLED:
+        quantity_mailing = cache.get('quantity_mailing')
+        if quantity_mailing is None:
+            quantity_mailing = Mailing.objects.count()
+            cache.set('quantity_mailing', quantity_mailing, 60 * 1)  # 1 minute
+    else:
+        quantity_mailing = Mailing.objects.count()
+    #  Часть кода по кеширования объекта quantity_active_mailing
+    if CACHE_ENABLED:
+        quantity_active_mailing = cache.get('quantity_active_mailing')
+        if quantity_active_mailing is None:
+            quantity_active_mailing = Mailing.objects.filter(is_active=True).count()
+            cache.set('quantity_active_mailing', quantity_active_mailing, 60 * 1)  # 1 minute
+    else:
+        quantity_active_mailing = Mailing.objects.filter(is_active=True).count()
+    #  Сначала берем всех Queryset, потом превращаем в словарь, т.к. с ним работать быстрее из-за хеширования
+    #  затем создаем множество из 'email' объектов
+    if CACHE_ENABLED:
+        all_clients_dict = cache.get('all_clients_dict')
+        if all_clients_dict is None:
+            all_clients_dict = Client.objects.all().values()
+            cache.set('all_clients_dict', all_clients_dict, 60 * 1)  # 1 minute
+    else:
+        all_clients_dict = Client.objects.all().values()
+    count_clients = len({element['email'] for element in all_clients_dict})
+    #  Далее идет блок формирования рандомных статей в кол-ве равном quantity_objects
+    lst = list(Blog.objects.all())
+    random.shuffle(lst)
+    sliced_lst = lst[:quantity_objects]
+    for blog in sliced_lst:
+        print(type(blog))
+        blog.count_view += 1
+        blog.save()
+    return render(request, template_name, {'blogs': sliced_lst, 'quantity_mailing': quantity_mailing,
+                    'quantity_active_mailing': quantity_active_mailing, 'count_clients': count_clients})
 
 
 class MailingListView(LoginRequiredMixin, ListView):
@@ -92,7 +132,7 @@ class MailingDetailView(LoginRequiredMixin, DetailView):
                      }
 
     def get_object(self, queryset=None):
-        """"""
+        """Метод получения объекта исходя из того, что перед ним: создатель, суперюзер или участник группы менеджеров"""
         mail = super().get_object()
         try:
             if self.request.user.is_superuser or self.request.user == mail.owner or self.request.user.groups.get(

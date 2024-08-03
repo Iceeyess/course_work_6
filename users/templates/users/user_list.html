@@ -36,7 +36,7 @@
         <td class="border border-secondary">{{ object.last_name }}</td>
         <td class="border border-secondary">{{ object.first_name }}</td>
         <td class="border border-secondary">
-            {% if request.user.is_manager_in_group and not request.user.pk == object.pk or user.is_superuser and not request.user.pk == object.pk %}
+            {% if request.user.is_in_manager_group and not request.user.pk == object.pk or user.is_superuser and not request.user.pk == object.pk %}
             {% if object.is_active %}
             <a class="btn btn-secondary text-white" href="{% url 'users:user_manage' object.pk %}">Деактивировать</a>
             {% elif not object.is_active %}

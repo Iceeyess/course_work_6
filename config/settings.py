@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 
 from pathlib import Path
 import os
+
+from blog.apps import BlogConfig
 from mailing.apps import MailingConfig
 from clients.apps import ClientsConfig
 from communications.apps import CommunicationsConfig
@@ -51,6 +53,7 @@ INSTALLED_APPS = [
     'mailing',
     'clients',
     'communications',
+    'blog.apps.BlogConfig',
     'users.apps.UsersConfig',
     'django_crontab',   # Для автоматической рассылки
 ]
@@ -75,6 +78,7 @@ TEMPLATES = [
             os.path.join(BASE_DIR, ClientsConfig.name, 'templates'),
             os.path.join(BASE_DIR, CommunicationsConfig.name, 'templates'),
             os.path.join(BASE_DIR, UsersConfig.name, 'templates'),  # для шаблонов в папке users
+            os.path.join(BASE_DIR, BlogConfig.name, 'templates'),  # для шаблонов в папке blogs
         ],
         'APP_DIRS': True,
         'OPTIONS': {
