@@ -1,8 +1,44 @@
 {% extends 'mailing/base.html' %}
-{% block index %}
-  <main class="px-3">
-    <h1>Новости компании</h1>
-    <p class="lead">Здесь могла быть реклама</p>
+{% block content %}
+<main class="px-3">
+    <h1>Новости в мире</h1>
+    Немного статистики:<br>
+    Количество рассылок всего: {{ quantity_mailing }}<br>
+    Количество активных рассылок: {{ quantity_active_mailing }}<br>
+    Количество клиентов всего: {{ count_clients }}<br>
+    {% for blog in blogs %}
 
-  </main>
+    <table class="border border-secondary">
+        <tbody>
+        <tr class="border border-secondary">
+            <td colspan="2">
+                {% if blog.picture %}
+                <img src="/media/{{ blog.picture }}" class="card-img-top" alt="product">
+                {% else %}
+                <img src="media/not found.jpg" class="card-img-top" alt="product">
+                {% endif %}
+            </td>
+        </tr>
+        <tr class="border border-secondary">
+            <td>Заголовок</td>
+            <td>{{ blog.title }}</td>
+        </tr>
+        <tr class="border border-secondary">
+            <td>Тело блога</td>
+            <td>{{ blog.body_blog }}</td>
+        </tr>
+        <tr class="border border-secondary">
+            <td>Счетчик просмотров</td>
+            <td>{{ blog.count_view }}</td>
+        </tr>
+        <tr class="border border-secondary">
+            <td>Дата</td>
+            <td>{{ blog.posted_date }}</td>
+        </tr>
+        </tbody>
+    </table>
+
+    {% endfor %}
+
+</main>
 {% endblock %}

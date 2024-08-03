@@ -42,14 +42,30 @@
         </ul>
         <div class="row">
             <div class="col-3" style="width: 10rem;">
-                <a href="{% url 'mailing:mailing_update' object.pk %}" class="btn btn-dark">Редактировать</a>
+                {% if user.is_superuser or user == object.owner %}
+                <a href="{% url 'mailing:mailing_update' object.pk %}" class="btn btn-outline-light btn-sm">Редактировать</a>
             </div>
+                {% endif %}
+                {# Если пользователь - суперюзер, владелец, и в группе managers, то будет доступ к редактированию #}
+                {% if user.is_superuser or user == object.owner or request.user.is_in_manager_group  %}
             <div class="col-3" style="width: 10rem;">
-                <a href="{% url 'mailing:mailing_detail' object.pk %}" class="btn btn-dark">Просмотр</a>
+                <a href="{% url 'mailing:mailing_detail' object.pk %}" class="btn btn-outline-light btn-sm">Просмотр</a>
             </div>
+                {% endif %}
+                {% if user.is_superuser or user == object.owner %}
             <div class="col-3" style="width: 10rem;">
-                <a href="{% url 'mailing:mailing_delete' object.pk %}" class="btn btn-dark">Удалить</a>
+                <a href="{% url 'mailing:mailing_delete' object.pk %}" class="btn btn-outline-light btn-sm">Удалить</a>
             </div>
+                {% endif %}
+            <div class="col-3" style="width:10">
+            {% if request.user.is_in_manager_group or user.is_superuser %}
+                {% if object.is_active %}
+                <a class="btn btn-outline-light btn-sm" href="{% url 'mailing:toggle_activity' object.pk %}">Деактивировать</a>
+                {% else %}
+                <a class="btn btn-primary btn-sm" href="{% url 'mailing:toggle_activity' object.pk %}">Активировать</a>
+                {% endif %}
+            {% endif %}
+                </div>
         </div>
     </div>
     {% endfor %}

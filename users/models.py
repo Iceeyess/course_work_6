@@ -19,3 +19,20 @@ class User(AbstractUser):
 
     def __str__(self):
         return self.email
+
+    class Meta:
+        verbose_name = 'Пользователь'
+        verbose_name_plural = 'Пользователи'
+        ordering = ('pk', )
+        permissions = [
+            (
+                "view_any_user", "Может просматривать список пользователей сервиса"
+            ),
+            (
+                "disable_user", "Может блокировать пользователей сервиса"
+            ),
+        ]
+
+    @property
+    def is_in_manager_group(self):
+        return self.groups.filter(name='managers').exists()

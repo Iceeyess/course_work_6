@@ -1,0 +1,53 @@
+{% extends 'mailing/base.html' %}
+
+{% block content %}
+<br>
+<nav class="pagination justify-content-center" aria-label="dark">
+    <ul class="pagination justify-content-center">
+        {% if page_obj.has_previous %}
+        <li class="page-item">
+            <a class="page-link" href="?page={{ page_obj.previous_page_number }}" tabindex="-1">Previous</a>
+        </li>
+        {% endif %}
+        <li class="page-item active">
+            <a class="page-link" href="?page={{ page_obj.number }}">{{ page_obj.number }}</a>
+        </li>
+        {% if page_obj.has_next %}
+        <li class="page-item">
+            <a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a>
+        </li>
+        {% endif %}
+    </ul>
+</nav>
+
+<table class="bg-dark text-white">
+    <thead class="border border-secondary">
+    <tr>
+        <th class="border border-secondary">Электронная почта</th>
+        <th class="border border-secondary">Фамилия</th>
+        <th class="border border-secondary">Имя</th>
+        <th class="border border-secondary">Статус</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for object in object_list %}
+    <tr>
+        <th class="border border-secondary">{{ object.email }}</th>
+        <td class="border border-secondary">{{ object.last_name }}</td>
+        <td class="border border-secondary">{{ object.first_name }}</td>
+        <td class="border border-secondary">
+            {% if request.user.is_in_manager_group and not request.user.pk == object.pk or user.is_superuser and not request.user.pk == object.pk %}
+            {% if object.is_active %}
+            <a class="btn btn-secondary text-white" href="{% url 'users:user_manage' object.pk %}">Деактивировать</a>
+            {% elif not object.is_active %}
+            <a class="btn btn-secondary text-white" href="{% url 'users:user_manage' object.pk %}">Активировать</a>
+            {% endif %}
+            {% else %}
+            Доступ закрыт
+            {% endif %}
+        </td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
