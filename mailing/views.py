@@ -54,7 +54,6 @@ def get_index(request):
     random.shuffle(lst)
     sliced_lst = lst[:quantity_objects]
     for blog in sliced_lst:
-        print(type(blog))
         blog.count_view += 1
         blog.save()
     return render(request, template_name, {'blogs': sliced_lst, 'quantity_mailing': quantity_mailing,

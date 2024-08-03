@@ -1,20 +1,42 @@
 [
 {
   "model": "clients.client",
-  "pk": 1,
+  "pk": 6,
   "fields": {
-    "email": "ice_eyes@mail.ru",
-    "full_name": "Крашенинников Дмитрий Михайлович",
-    "comment": "Привет"
+    "email": "pavelkrolikov@yandex.ru",
+    "full_name": "Павел",
+    "comment": "Супер Павел!",
+    "owner": 10
   }
 },
 {
   "model": "clients.client",
-  "pk": 2,
+  "pk": 7,
   "fields": {
-    "email": "ice@asdadas.ru",
-    "full_name": "AFADfadf",
-    "comment": "sdfasdffsdff"
+    "email": "pavelkrolikov@yandex.ru",
+    "full_name": "Павел Кроликов",
+    "comment": "Павел Кроликов",
+    "owner": 10
+  }
+},
+{
+  "model": "clients.client",
+  "pk": 8,
+  "fields": {
+    "email": "iceeyesss@yandex.ru",
+    "full_name": "Антон",
+    "comment": "Антон",
+    "owner": 9
+  }
+},
+{
+  "model": "clients.client",
+  "pk": 9,
+  "fields": {
+    "email": "pavelkrolikov@yandex.ru",
+    "full_name": "Антоша",
+    "comment": "Создал дубликат почты от Павла",
+    "owner": 9
   }
 }
 ]

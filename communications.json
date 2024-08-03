@@ -1,0 +1,29 @@
+[
+{
+  "model": "communications.communication",
+  "pk": 7,
+  "fields": {
+    "topic": "Павел",
+    "body": "Привет, Павел!",
+    "owner": 10
+  }
+},
+{
+  "model": "communications.communication",
+  "pk": 8,
+  "fields": {
+    "topic": "Павел 2",
+    "body": "Привет, Павел 2.",
+    "owner": 10
+  }
+},
+{
+  "model": "communications.communication",
+  "pk": 9,
+  "fields": {
+    "topic": "Антон!",
+    "body": "Привет, Антон!",
+    "owner": 9
+  }
+}
+]
