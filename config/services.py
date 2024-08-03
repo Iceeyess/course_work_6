@@ -95,3 +95,11 @@ class UserPassThroughTestMixin(UserPassesTestMixin):
         # Если юзер - superuser или создатель сообщения, то может редактировать сообщение
         owner = self.get_object().owner
         return self.request.user.is_superuser or self.request.user == owner
+
+
+class IsUserManagerOrSuperUser(UserPassesTestMixin):
+    """Переопределенный класс для следующих приложения: users.
+    Данный класс для проверки представлений на соответствие условий: пользователь должен быть или
+    суперюзером или входить в группу менеджеры"""
+    def test_func(self):
+        return self.request.user.is_superuser or self.request.user.groups.filter(name='managers').exists()

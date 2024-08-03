@@ -3,9 +3,9 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView, PasswordResetConfirmView
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy, reverse
-from django.views.generic import CreateView, UpdateView
+from django.views.generic import CreateView, UpdateView, ListView
 
-from config.services import send_registration_email
+from config.services import send_registration_email, IsUserManagerOrSuperUser
 from config.settings import TOPIC_TUPLE
 from users.apps import UsersConfig
 from users.forms import UserLoginForm, UserRegistrationForm, UserProfileForm
@@ -77,4 +77,26 @@ class UserPasswordResetConfirm(PasswordResetConfirmView):
         context['uidb64'] = self.kwargs.get('uidb64')
         context['token'] = self.kwargs.get('token')
         return context
+
+
+class UsersList(LoginRequiredMixin, IsUserManagerOrSuperUser, ListView):
+    model = User
+    form_class = UserProfileForm
+    paginate_by = 20
+    extra_context = {
+        'topic_name': topic_name,
+        'TOPIC_TUPLE': TOPIC_TUPLE
+    }
+
+
+def manage_user_status(request, pk):
+    user = get_object_or_404(User, pk=pk)
+    if user.pk == request.user.pk:
+        return redirect(reverse('users:users_list'))
+    if user.is_active:
+        user.is_active = False
+    else:
+        user.is_active = True
+    user.save()
+    return redirect(reverse('users:users_list'))
 

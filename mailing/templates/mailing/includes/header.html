@@ -4,48 +4,52 @@
                                            href="{% url 'main:main_page' %}">Sky рассылки</a></h3>
         <nav class="nav nav-masthead justify-content-center float-md-end">
             {% if TOPIC_TUPLE.0 == topic_name %}
-            <a class="nav-link active" aria-current="page" href="{% url 'clients:client_list' %}">Наши клиенты</a>
+             <a class="nav-link active" aria-current="page" href="{% url 'clients:client_list' %}">Наши клиенты</a>
             {% else %}
-            <a class="nav-link" aria-current="page" href="{% url 'clients:client_list' %}">Наши клиенты</a>
+                <a class="nav-link" aria-current="page" href="{% url 'clients:client_list' %}">Наши клиенты</a>
             {% endif %}
 
             {% if TOPIC_TUPLE.1 == topic_name %}
-            <a class="nav-link active" href="{% url 'mailing:mailing_list' %}">Рассылки</a>
+                <a class="nav-link active" href="{% url 'mailing:mailing_list' %}">Рассылки</a>
             {% else %}
-            <a class="nav-link" href="{% url 'mailing:mailing_list' %}">Рассылки</a>
+                <a class="nav-link" href="{% url 'mailing:mailing_list' %}">Рассылки</a>
             {% endif %}
 
             {% if TOPIC_TUPLE.2 == topic_name %}
-            <a class="nav-link active" href="{% url 'communications:communication_list' %}">Сообщения</a>
+                <a class="nav-link active" href="{% url 'communications:communication_list' %}">Сообщения</a>
             {% else %}
-            <a class="nav-link" href="{% url 'communications:communication_list' %}">Сообщения</a>
+                <a class="nav-link" href="{% url 'communications:communication_list' %}">Сообщения</a>
             {% endif %}
 
             {# Блок проверки авторизован пользователь или нет #}
             {% if request.user.is_authenticated %}
-            <h5 class="btn btn-outline-light btn-sm"><a href="{% url 'users:profile' user.pk %}">
-                {{ user.username }}</a></h5>
-            <form method="post" action="{% url 'users:logout' %}">
+
+                {# Блок проверки статуса: если суперюзер или менеджер, то видит дополнительное меню #}
+                {% if request.user.is_superuser or request.user.is_in_manager_group %}
+
+                    {# блок проверки нахождения меню #}
+                    {% if TOPIC_TUPLE.3 == topic_name %}
+                        <a class="nav-link active" href="{% url 'users:users_list' %}">Пользователи</a>
+                    {% else %}
+                        <a class="nav-link" href="{% url 'users:users_list' %}">Пользователи</a>
+                    {% endif %}
+
+                {% endif %}
+
+                <h5 class="btn btn-outline-light btn-sm"><a href="{% url 'users:profile' user.pk %}">
+                {{ user.username|slice:10 }}</a></h5>
+                <form method="post" action="{% url 'users:logout' %}">
                 {% csrf_token %}
                 <button type="submit" class="btn btn-primary btn-sm">Выйти</button>
-            </form>
+                </form>
+
             {% else %}
                 {% if TOPIC_TUPLE.3 == topic_name %}
-                <a class="nav-link active" href="{% url 'users:login' %}">Авторизация</a>
+                    <a class="nav-link active" href="{% url 'users:login' %}">Авторизация</a>
                 {% else %}
-                <a class="nav-link" href="{% url 'users:login' %}">Авторизация</a>
+                    <a class="nav-link" href="{% url 'users:login' %}">Авторизация</a>
                 {% endif %}
             {% endif %}
-
-
-
-
-
-
-
-
-
-
 
 
         </nav>

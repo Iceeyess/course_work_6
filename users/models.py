@@ -34,5 +34,5 @@ class User(AbstractUser):
         ]
 
     @property
-    def is_in_group(self):
+    def is_in_manager_group(self):
         return self.groups.filter(name='managers').exists()

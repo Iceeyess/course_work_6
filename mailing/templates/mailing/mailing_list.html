@@ -47,7 +47,7 @@
             </div>
                 {% endif %}
                 {# Если пользователь - суперюзер, владелец, и в группе managers, то будет доступ к редактированию #}
-                {% if user.is_superuser or user == object.owner or request.user.is_in_group  %}
+                {% if user.is_superuser or user == object.owner or request.user.is_in_manager_group  %}
             <div class="col-3" style="width: 10rem;">
                 <a href="{% url 'mailing:mailing_detail' object.pk %}" class="btn btn-outline-light btn-sm">Просмотр</a>
             </div>
@@ -58,11 +58,11 @@
             </div>
                 {% endif %}
             <div class="col-3" style="width:10">
-            {% if request.user.is_in_group %}
+            {% if request.user.is_in_manager_group %}
                 {% if object.is_active %}
                 <a class="btn btn-outline-light btn-sm" href="{% url 'mailing:toggle_activity' object.pk %}">Деактивировать</a>
                 {% else %}
-                <a class="btn btn-primary" href="{% url 'mailing:toggle_activity' object.pk %}">Активировать</a>
+                <a class="btn btn-primary btn-sm" href="{% url 'mailing:toggle_activity' object.pk %}">Активировать</a>
                 {% endif %}
             {% endif %}
                 </div>

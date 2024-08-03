@@ -163,7 +163,7 @@ EMAIL_FILE_PATH = os.path.join(BASE_DIR, 'sending_emails_log')
 
 #  Job for mail sending
 CRONJOBS = [
-    ('*/1 * * * *', 'config.services.get_send_mailing', ),
+    ('*/1 * * * *', 'config.services.get_send_mailing', f'>> {BASE_DIR}/crontab_jobs/scheduled_job.log'),
 ]
 
 # This topic tuple for active panel for header page in order to get visualization where are you placing at site
@@ -172,6 +172,7 @@ TOPIC_TUPLE = (
     'mailing',
     'communications',
     'users',
+    'autorize',
 )
 
 AUTH_USER_MODEL = 'users.User'
