@@ -9,6 +9,7 @@ NULLABLE = dict(null=True, blank=True)
 
 
 class Blog(models.Model):
+    """Модель для блога"""
     title = models.CharField(max_length=150, verbose_name="Заголовок", help_text="Введите заголовок")
     body_blog = models.TextField(verbose_name="Содержимое статьи", help_text="Введите текст статьи")
     picture = models.ImageField(upload_to='blog/', verbose_name="Фото", help_text="Загрузите фото", **NULLABLE)

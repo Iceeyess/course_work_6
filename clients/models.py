@@ -6,7 +6,9 @@ from users.models import User
 # Create your models here.
 NULLABLE = dict(blank=True, null=True)
 
+
 class Client(models.Model):
+    """Модель клиентов"""
     email = models.EmailField(verbose_name='Электронная почта', help_text='Введите электронную почту')
     full_name = models.CharField(max_length=100, verbose_name='Ф.И.О.', help_text='Введите Ф.И.О.')
     comment = models.TextField(verbose_name='Комментарий', help_text='Введите комментарий')

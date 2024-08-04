@@ -35,4 +35,6 @@ class User(AbstractUser):
 
     @property
     def is_in_manager_group(self):
+        """Свойство для определения принадлежности пользоваьеля к группе
+        Нужна для шаблона"""
         return self.groups.filter(name='managers').exists()

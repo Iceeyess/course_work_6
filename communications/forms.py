@@ -5,6 +5,7 @@ from communications.models import Communication
 
 
 class CommunicationForm(ModelForm):
+    """Форма сообщений"""
     class Meta:
         model = Communication
         fields = ['topic', 'body', ]
