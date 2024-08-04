@@ -1,0 +1,64 @@
+[
+{
+  "model": "users.user",
+  "pk": 8,
+  "fields": {
+    "password": "pbkdf2_sha256$720000$q0v8fEC4MV62RabAcpqrcs$gXos/FlD/2SGuXQYCu4cEKm5RPRevUsd5WNlGVcH3Mg=",
+    "last_login": "2024-08-04T09:19:46.624Z",
+    "is_superuser": true,
+    "username": "Admin",
+    "first_name": "Дмитрий",
+    "last_name": "Крашенинников",
+    "is_staff": true,
+    "date_joined": "2024-08-02T18:06:28.364Z",
+    "email": "ice_eyes@mail.ru",
+    "user_image": "",
+    "is_active": true,
+    "token": null,
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "users.user",
+  "pk": 9,
+  "fields": {
+    "password": "pbkdf2_sha256$720000$z1tZS9EBmbQczqmLTq8hQi$bL8w7FYglUIvo2ZV8VACWG7nhyWrDyEpmobXsUA+b3Y=",
+    "last_login": "2024-08-03T19:23:03.077Z",
+    "is_superuser": false,
+    "username": "Антоша",
+    "first_name": "Антоша",
+    "last_name": "Гагарин",
+    "is_staff": true,
+    "date_joined": "2024-08-02T18:06:28.772Z",
+    "email": "iceeyesss@yandex.ru",
+    "user_image": "",
+    "is_active": true,
+    "token": null,
+    "groups": [
+      1
+    ],
+    "user_permissions": []
+  }
+},
+{
+  "model": "users.user",
+  "pk": 10,
+  "fields": {
+    "password": "pbkdf2_sha256$720000$ghvLeh13FnqYfk3ryLvRmg$5smhhTQUPOY9YQEkm09/O2yICJa/6RndZVVt4Dfw508=",
+    "last_login": "2024-08-03T19:24:23.353Z",
+    "is_superuser": false,
+    "username": "Павлик",
+    "first_name": "Павлик",
+    "last_name": "Кроликов",
+    "is_staff": true,
+    "date_joined": "2024-08-02T18:06:29.160Z",
+    "email": "pavlikkrolikov@yandex.ru",
+    "user_image": "",
+    "is_active": true,
+    "token": null,
+    "groups": [],
+    "user_permissions": []
+  }
+}
+]

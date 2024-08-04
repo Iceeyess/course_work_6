@@ -5,6 +5,7 @@ from clients.models import Client
 
 
 class ClientForm(ModelForm):
+    """Формы для клиентов"""
     class Meta:
         model = Client
         fields = ['email', 'full_name', 'comment', ]

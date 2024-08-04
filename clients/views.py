@@ -18,6 +18,7 @@ topic_name = ClientsConfig.name
 
 
 class ClientListView(LoginRequiredMixin, ListView):
+    """Список клиентов"""
     model = Client
     paginate_by = 4
     extra_context = {'topic_name': topic_name,  # Для возврата в меню
@@ -38,6 +39,7 @@ class ClientListView(LoginRequiredMixin, ListView):
 
 
 class ClientCreateView(LoginRequiredMixin, CreateView):
+    """Создание клиента"""
     model = Client
     form_class = ClientForm
     success_url = reverse_lazy('clients:client_list')
@@ -46,6 +48,7 @@ class ClientCreateView(LoginRequiredMixin, CreateView):
                      }
 
     def form_valid(self, form):
+        """Сохраняем №  пользователя в ID клиента"""
         if form.is_valid():
             client = form.save()
             client.owner = self.request.user
@@ -54,6 +57,7 @@ class ClientCreateView(LoginRequiredMixin, CreateView):
 
 
 class ClientUpdateView(LoginRequiredMixin, UserPassThroughTestMixin, UpdateView):
+    """Редактирование клиента"""
     model = Client
     success_url = reverse_lazy('clients:client_list')
     form_class = ClientForm
@@ -63,12 +67,14 @@ class ClientUpdateView(LoginRequiredMixin, UserPassThroughTestMixin, UpdateView)
                      }
 
     def test_func(self):
-        # Если юзер - superuser или создатель клиента, то может редактировать клиента
+        # Если пользователь - superuser или создатель клиента, то может редактировать клиента
+        # Менеджеры такими полномочиями не наделены
         owner = self.get_object().owner
         return self.request.user.is_superuser or self.request.user == owner
 
 
 class ClientDetailView(LoginRequiredMixin, UserPassThroughTestMixin, DetailView):
+    """Детализация клиента"""
     model = Client
     form_class = ClientForm
     extra_context = {'topic_name': topic_name,  # Для возврата в меню
@@ -77,6 +83,7 @@ class ClientDetailView(LoginRequiredMixin, UserPassThroughTestMixin, DetailView)
 
 
 class ClientDeleteView(LoginRequiredMixin, UserPassThroughTestMixin, DeleteView):
+    """Удаление клиента"""
     model = Client
     success_url = reverse_lazy('clients:client_list')
     extra_context = {'topic_name': topic_name,  # Для возврата в меню
@@ -84,7 +91,7 @@ class ClientDeleteView(LoginRequiredMixin, UserPassThroughTestMixin, DeleteView)
                      }
 
     def test_func(self):
-        # Если юзер - superuser или создатель клиента, то может удалить клиента
+        # Если юзер - superuser или создатель клиента, то может удалить клиента, менеджеры не могу удалять клиентов.
         owner = self.get_object().owner
         return self.request.user.is_superuser or self.request.user == owner
 

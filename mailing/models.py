@@ -11,8 +11,11 @@ NULLABLE = dict(null=True, blank=True)
 
 
 class Mailing(models.Model):
-    # period_choices = (86400, 'Раз в день'), (604800, 'Раз в неделю'), (2592000, 'Раз в месяц',)
-    period_choices = (60, 'Раз в минуту'), (60 * 3, 'Раз в 3 минуты'), (60 * 5, 'Раз в 5 минут',)
+    """Модель для рассылок. Внизу есть две одинаковые переменные period_choices,
+    одна всегда неактивна для тестирования"""
+    period_choices = (86400, 'Раз в день'), (604800, 'Раз в неделю'), (2592000, 'Раз в месяц')
+    # для локального теста  нижеуказанные грани.
+    # period_choices = (60, 'Раз в минуту'), (60 * 3, 'Раз в 3 минуты'), (60 * 5, 'Раз в 5 минут',)
     date_time_attempt = models.DateTimeField(default=datetime.now(), verbose_name='Дата и время первой рассылки',
                                              help_text='Введите дату и время первой рассылки. По умолчанию - текущее время')
     date_time_threshold = models.DateTimeField(default=datetime.now(), verbose_name='Дата и время окончания периода',
@@ -45,6 +48,7 @@ class Mailing(models.Model):
 
 
 class Log(models.Model):
+    """Модель для логирования рассылок"""
     date_time_last_attempt = models.DateTimeField(default=datetime.now(timezone(TIME_ZONE)),
                                                   verbose_name='Дата и время последней попытки')
     status = models.CharField(default="Не отправлялось", max_length=50, verbose_name='Статус рассылки')

@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/5.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
-
+from datetime import datetime
 from pathlib import Path
 import os
 
@@ -167,7 +167,8 @@ EMAIL_FILE_PATH = os.path.join(BASE_DIR, 'sending_emails_log')
 
 #  Job for mail sending
 CRONJOBS = [
-    ('*/1 * * * *', 'config.services.get_send_mailing', f'>> {BASE_DIR}/crontab_jobs/scheduled_job.log'),
+    ('*/1 * * * *', 'config.services.get_send_mailing',
+     f'>> {BASE_DIR}/crontab_jobs/scheduled_job_{str(datetime.now())[:10]}.log'),
 ]
 
 # This topic tuple for active panel for header page in order to get visualization where are you placing at site
@@ -176,7 +177,7 @@ TOPIC_TUPLE = (
     'mailing',
     'communications',
     'users',
-    'autorize',
+    'authorize',
 )
 
 AUTH_USER_MODEL = 'users.User'

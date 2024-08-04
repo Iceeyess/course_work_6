@@ -4,12 +4,14 @@ from django import forms
 
 
 class UserLoginForm(AuthenticationForm):
+    """Форма аутентификации"""
     class Meta:
         model = get_user_model()
         fields = ('email', 'password',)
 
 
 class UserRegistrationForm(UserCreationForm):
+    """Форма регистрации"""
     class Meta:
         model = get_user_model()
         fields = ('email', 'password1', 'password2', 'username', 'user_image', 'first_name', 'last_name',)
@@ -25,6 +27,7 @@ class UserRegistrationForm(UserCreationForm):
 
 
 class UserProfileForm(forms.ModelForm):
+    """Форма профайла"""
     email = forms.CharField(disabled=True, label='Электронная почта',
                             widget=forms.TextInput(attrs={'class': 'form-control'}))
     username = forms.CharField(disabled=True, label='Имя пользователя',

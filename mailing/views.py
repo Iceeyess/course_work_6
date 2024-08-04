@@ -13,7 +13,7 @@ from datetime import datetime
 from pytz import timezone
 import random
 from config.settings import TIME_ZONE, TOPIC_TUPLE, CACHE_ENABLED
-from .forms import MailingForm
+from .forms import MailingForm, MailingFormUpdate
 
 # Create your views here.
 topic_name = MailingConfig.name
@@ -54,7 +54,6 @@ def get_index(request):
     random.shuffle(lst)
     sliced_lst = lst[:quantity_objects]
     for blog in sliced_lst:
-        print(type(blog))
         blog.count_view += 1
         blog.save()
     return render(request, template_name, {'blogs': sliced_lst, 'quantity_mailing': quantity_mailing,
@@ -62,6 +61,7 @@ def get_index(request):
 
 
 class MailingListView(LoginRequiredMixin, ListView):
+    """Представление списка рассылок"""
     model = Mailing
     paginate_by = 4
     extra_context = {'topic_name': topic_name,  # Для возврата в меню
@@ -70,6 +70,7 @@ class MailingListView(LoginRequiredMixin, ListView):
     context_object_name = 'mailing'
 
     def get_queryset(self):
+        """Возвращает список из объектов QUERYSET по условиям ниже"""
         queryset = super().get_queryset()
         # Блок проверки прав, если пользователь имеет права группы managers, то получает все объекты Client
         # иначе получает только те, которые принадлежат текущему пользователю
@@ -83,6 +84,7 @@ class MailingListView(LoginRequiredMixin, ListView):
 
 
 class MailingCreateView(LoginRequiredMixin, CreateView):
+    """Представление создания рассылок"""
     model = Mailing
     form_class = MailingForm
     extra_context = {'topic_name': topic_name,  # Для возврата в меню
@@ -104,15 +106,18 @@ class MailingCreateView(LoginRequiredMixin, CreateView):
 
 
 class MailingUpdateView(LoginRequiredMixin, UserPassThroughTestMixin, UpdateView):
-    """Логика прав находится в кастомном миксине UserPassThroughTestMixin из-за DRY"""
+    """Логика прав находится в кастомном миксине UserPassThroughTestMixin из-за DRY
+    Логика формы поменялась, чтобы даты не обнулялись каждый раз"""
     model = Mailing
-    form_class = MailingForm
+    form_class = MailingFormUpdate
     extra_context = {'topic_name': topic_name,  # Для возврата в меню
                      'TOPIC_TUPLE': TOPIC_TUPLE
                      }
     success_url = reverse_lazy('mailing:mailing_list')
 
     def form_valid(self, form):
+        """ Метод для определения статуса 'в ожидании', если текущая дата попытки меньше даты порога и дата
+        порога больше даты и времени текущего момента"""
         now = datetime.now(timezone(TIME_ZONE))  # Временная зон
         if form.is_valid():
             if (self.get_object().date_time_attempt < self.get_object().date_time_threshold and
@@ -143,6 +148,7 @@ class MailingDetailView(LoginRequiredMixin, DetailView):
 
 
 class MailingDeleteView(LoginRequiredMixin, UserPassThroughTestMixin, DeleteView):
+    """Представление удаления рассылки"""
     model = Mailing
     extra_context = {'topic_name': topic_name,  # Для возврата в меню
                      'TOPIC_TUPLE': TOPIC_TUPLE
@@ -151,6 +157,7 @@ class MailingDeleteView(LoginRequiredMixin, UserPassThroughTestMixin, DeleteView
 
 
 def toggle_activity(request, pk):
+    """Функция для переключения статусов рассылок"""
     mailing = get_object_or_404(Mailing, pk=pk)
     if mailing.is_active:
         mailing.is_active = False

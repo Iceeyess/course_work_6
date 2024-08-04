@@ -1,5 +1,6 @@
 {% extends 'mailing/base.html' %}
 {% block content %}
+{% load main_page %}
 <main class="px-3">
     <h1>Новости в мире</h1>
     Немного статистики:<br>
@@ -13,9 +14,9 @@
         <tr class="border border-secondary">
             <td colspan="2">
                 {% if blog.picture %}
-                <img src="/media/{{ blog.picture }}" class="card-img-top" alt="product">
+                <img src="{% get_default_picture blog.picture %}" class="card-img-top" alt="product">
                 {% else %}
-                <img src="media/not found.jpg" class="card-img-top" alt="product">
+                <img src="{% get_default_picture blog.picture %}" class="card-img-top" alt="product">
                 {% endif %}
             </td>
         </tr>
