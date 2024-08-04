@@ -1,29 +1,38 @@
 [
 {
-  "model": "communications.communication",
-  "pk": 7,
-  "fields": {
-    "topic": "Павел",
-    "body": "Привет, Павел!",
-    "owner": 10
-  }
+    "model": "communications.communication",
+    "pk": 1,
+    "fields": {
+        "topic": "Павел",
+        "body": "Привет, Павел!",
+        "owner": 3
+    }
 },
 {
-  "model": "communications.communication",
-  "pk": 8,
-  "fields": {
-    "topic": "Павел 2",
-    "body": "Привет, Павел 2.",
-    "owner": 10
-  }
+    "model": "communications.communication",
+    "pk": 2,
+    "fields": {
+        "topic": "Павел 2",
+        "body": "Привет, Павел2!",
+        "owner": 3
+    }
 },
 {
-  "model": "communications.communication",
-  "pk": 9,
-  "fields": {
-    "topic": "Антон!",
-    "body": "Привет, Антон!",
-    "owner": 9
-  }
+    "model": "communications.communication",
+    "pk": 3,
+    "fields": {
+        "topic": "Антон",
+        "body": "Привет, Антон!",
+        "owner": 2
+    }
+},
+{
+    "model": "communications.communication",
+    "pk": 4,
+    "fields": {
+        "topic": "Антон2!",
+        "body": "Привет, Антон2!",
+        "owner": 2
+    }
 }
 ]
