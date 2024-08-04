@@ -1,42 +1,42 @@
 [
 {
-  "model": "clients.client",
-  "pk": 6,
-  "fields": {
-    "email": "pavelkrolikov@yandex.ru",
-    "full_name": "Павел",
-    "comment": "Супер Павел!",
-    "owner": 10
-  }
+    "model": "clients.client",
+    "pk": 1,
+    "fields": {
+        "email": "pavlikkrolikov@yandex.ru",
+        "full_name": "Павел",
+        "comment": "Павел",
+        "owner": 3
+    }
 },
 {
-  "model": "clients.client",
-  "pk": 7,
-  "fields": {
-    "email": "pavelkrolikov@yandex.ru",
-    "full_name": "Павел Кроликов",
-    "comment": "Павел Кроликов",
-    "owner": 10
-  }
+    "model": "clients.client",
+    "pk": 2,
+    "fields": {
+        "email": "pavlikkrolikov@yandex.ru",
+        "full_name": "Павел 2",
+        "comment": "Павел 2",
+        "owner": 3
+    }
 },
 {
-  "model": "clients.client",
-  "pk": 8,
-  "fields": {
-    "email": "iceeyesss@yandex.ru",
-    "full_name": "Антон",
-    "comment": "Антон",
-    "owner": 9
-  }
+    "model": "clients.client",
+    "pk": 3,
+    "fields": {
+        "email": "iceeyesss@yandex.ru",
+        "full_name": "Антон",
+        "comment": "Антон",
+        "owner": 2
+    }
 },
 {
-  "model": "clients.client",
-  "pk": 9,
-  "fields": {
-    "email": "pavelkrolikov@yandex.ru",
-    "full_name": "Антоша",
-    "comment": "Создал дубликат почты от Павла",
-    "owner": 9
-  }
+    "model": "clients.client",
+    "pk": 4,
+    "fields": {
+        "email": "iceeyesss@yandex.ru",
+        "full_name": "Антон2!",
+        "comment": "Антон2!",
+        "owner": 2
+    }
 }
 ]
