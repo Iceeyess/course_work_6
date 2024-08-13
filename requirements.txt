@@ -2,9 +2,11 @@ APScheduler==3.10.4
 asgiref==3.8.1
 asttokens==2.4.1
 async-timeout==4.0.3
+crontab==1.0.1
 decorator==5.1.1
 Django==5.0.6
 django-crontab==0.7.1
+django-redis==5.4.0
 exceptiongroup==1.2.2
 executing==2.0.1
 iniconfig==2.0.0
