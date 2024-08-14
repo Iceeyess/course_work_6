@@ -28,7 +28,8 @@ urlpatterns = [
     path('mailing/', include('mailing.urls', namespace='mailing')),
     path('communications/', include('communications.urls', namespace='communications')),
     path('users/', include('users.urls', namespace='users')),
-    path('logs', include('logs.urls', namespace='logs')),
+    path('logs/', include('logs.urls', namespace='logs')),
+    path('blog/', include('blog.urls', namespace='blog')),
 ]
 
 

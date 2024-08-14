@@ -107,7 +107,7 @@ python3 manage.py loaddata clients.json
 python3 manage.py loaddata communications.json
 python3 manage.py loaddata mailing.json
 python3 manage.py loaddata blog.json
-
+python3 manage.py loaddata logs.json
 python3 manage.py runserver
 
 
