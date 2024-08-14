@@ -1,68 +1,68 @@
 [
 {
-    "model": "mailing.mailing",
-    "pk": 1,
-    "fields": {
-        "date_time_attempt": "2024-08-04T12:31:00Z",
-        "date_time_threshold": "2024-10-26T12:31:00Z",
-        "period": 86400,
-        "status": "В ожидании",
-        "message": 1,
-        "owner": 3,
-        "is_active": true,
-        "client": [
-            1
-        ]
-    }
+  "model": "mailing.mailing",
+  "pk": 1,
+  "fields": {
+    "date_time_attempt": "2024-08-14T20:48:02.206Z",
+    "date_time_threshold": "2024-10-26T12:31:00Z",
+    "period": 86400,
+    "status": "Сообщение отправлено",
+    "message": 1,
+    "owner": 3,
+    "is_active": true,
+    "client": [
+      1
+    ]
+  }
 },
 {
-    "model": "mailing.mailing",
-    "pk": 2,
-    "fields": {
-        "date_time_attempt": "2024-08-01T12:31:00Z",
-        "date_time_threshold": "2024-11-02T12:31:00Z",
-        "period": 604800,
-        "status": "В ожидании",
-        "message": 2,
-        "owner": 3,
-        "is_active": true,
-        "client": [
-            1,
-            2
-        ]
-    }
+  "model": "mailing.mailing",
+  "pk": 2,
+  "fields": {
+    "date_time_attempt": "2024-08-20T20:48:02.238Z",
+    "date_time_threshold": "2024-11-02T12:31:00Z",
+    "period": 604800,
+    "status": "Сообщение отправлено",
+    "message": 2,
+    "owner": 3,
+    "is_active": true,
+    "client": [
+      1,
+      2
+    ]
+  }
 },
 {
-    "model": "mailing.mailing",
-    "pk": 3,
-    "fields": {
-        "date_time_attempt": "2024-07-03T12:33:00Z",
-        "date_time_threshold": "2024-11-08T12:33:00Z",
-        "period": 86400,
-        "status": "В ожидании",
-        "message": 3,
-        "owner": 2,
-        "is_active": true,
-        "client": [
-            3,
-            4
-        ]
-    }
+  "model": "mailing.mailing",
+  "pk": 3,
+  "fields": {
+    "date_time_attempt": "2024-08-15T17:57:02.206Z",
+    "date_time_threshold": "2024-11-08T12:33:00Z",
+    "period": 86400,
+    "status": "Сообщение отправлено",
+    "message": 3,
+    "owner": 2,
+    "is_active": true,
+    "client": [
+      3,
+      4
+    ]
+  }
 },
 {
-    "model": "mailing.mailing",
-    "pk": 4,
-    "fields": {
-        "date_time_attempt": "2024-08-05T12:33:00Z",
-        "date_time_threshold": "2024-12-31T12:33:00Z",
-        "period": 2592000,
-        "status": "В ожидании",
-        "message": 4,
-        "owner": 2,
-        "is_active": true,
-        "client": [
-            4
-        ]
-    }
+  "model": "mailing.mailing",
+  "pk": 4,
+  "fields": {
+    "date_time_attempt": "2024-09-13T17:59:02.014Z",
+    "date_time_threshold": "2024-12-31T12:33:00Z",
+    "period": 2592000,
+    "status": "Сообщение отправлено",
+    "message": 4,
+    "owner": 2,
+    "is_active": true,
+    "client": [
+      4
+    ]
+  }
 }
 ]

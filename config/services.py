@@ -3,7 +3,8 @@ from datetime import datetime, timedelta
 
 from django.contrib.auth.mixins import UserPassesTestMixin
 
-from mailing.models import Mailing, Log
+from mailing.models import Mailing
+from logs.models import Log
 from django.core.mail import send_mail
 from config.settings import EMAIL_HOST_USER
 from pytz import timezone

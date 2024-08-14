@@ -1,0 +1,44 @@
+{% extends 'mailing/base.html' %}
+
+{% block content %}
+<br>
+<nav class="pagination justify-content-center" aria-label="dark">
+    <ul class="pagination justify-content-center">
+        {% if page_obj.has_previous %}
+        <li class="page-item">
+            <a class="page-link" href="?page={{ page_obj.previous_page_number }}" tabindex="-1">Previous</a>
+        </li>
+        {% endif %}
+        <li class="page-item active">
+            <a class="page-link" href="?page={{ page_obj.number }}">{{ page_obj.number }}</a>
+        </li>
+        {% if page_obj.has_next %}
+        <li class="page-item">
+            <a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a>
+        </li>
+        {% endif %}
+    </ul>
+</nav>
+
+<div class="container" style="width: 30rem;">
+    <div class="row">
+        <h1>Список логов</h1>
+    </div>
+
+    {% for object in object_list %}
+    <div class="card-body">
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">Дата и время последней рассылки: {{ object.date_time_last_attempt }}</li>
+            <li class="list-group-item">Статус: {{ object.status }}</li>
+            <li class="list-group-item">Код ответа: {{ object.server_code_response }}</li>
+            <li class="list-group-item">Ответ от сервера: {{ object.server_response }}</li>
+            <li class="list-group-item">ID рассылки: {{ object.mailing_relation.id }}</li>
+        </ul>
+
+    </div>
+    {% endfor %}
+
+
+</div>
+
+{% endblock %}

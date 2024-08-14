@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     'mailing',
     'clients',
     'communications',
+    'logs.apps.LogsConfig',
     'blog.apps.BlogConfig',
     'users.apps.UsersConfig',
     'django_crontab',   # Для автоматической рассылки
@@ -168,7 +169,7 @@ EMAIL_FILE_PATH = os.path.join(BASE_DIR, 'sending_emails_log')
 #  Job for mail sending
 CRONJOBS = [
     ('*/1 * * * *', 'config.services.get_send_mailing',
-     f'>> {BASE_DIR}/crontab_jobs/scheduled_job_{str(datetime.now())[:10]}.log'),
+     f'>> {BASE_DIR}/crontab_jobs/scheduled_job_{str(datetime.now())[:10]}.logs'),
 ]
 
 # This topic tuple for active panel for header page in order to get visualization where are you placing at site
@@ -178,6 +179,8 @@ TOPIC_TUPLE = (
     'communications',
     'users',
     'authorize',
+    'logs',
+    'blog',
 )
 
 AUTH_USER_MODEL = 'users.User'

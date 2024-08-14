@@ -1,0 +1,68 @@
+[
+{
+  "model": "logs.log",
+  "pk": 1,
+  "fields": {
+    "date_time_last_attempt": "2024-08-13T20:48:02.206Z",
+    "status": "Сообщение отправлено",
+    "server_code_response": 200,
+    "server_response": "Отправлено без ошибок",
+    "mailing_relation": 1
+  }
+},
+{
+  "model": "logs.log",
+  "pk": 2,
+  "fields": {
+    "date_time_last_attempt": "2024-08-13T20:48:02.238Z",
+    "status": "Сообщение отправлено",
+    "server_code_response": 200,
+    "server_response": "Отправлено без ошибок",
+    "mailing_relation": 2
+  }
+},
+{
+  "model": "logs.log",
+  "pk": 3,
+  "fields": {
+    "date_time_last_attempt": "2024-08-13T20:48:02.252Z",
+    "status": "Сообщение отправлено",
+    "server_code_response": 200,
+    "server_response": "Отправлено без ошибок",
+    "mailing_relation": 3
+  }
+},
+{
+  "model": "logs.log",
+  "pk": 4,
+  "fields": {
+    "date_time_last_attempt": "2024-08-13T20:48:02.261Z",
+    "status": "Сообщение отправлено",
+    "server_code_response": 200,
+    "server_response": "Отправлено без ошибок",
+    "mailing_relation": 4
+  }
+},
+{
+  "model": "logs.log",
+  "pk": 5,
+  "fields": {
+    "date_time_last_attempt": "2024-08-14T17:57:02.206Z",
+    "status": "Сообщение отправлено",
+    "server_code_response": 200,
+    "server_response": "Отправлено без ошибок",
+    "mailing_relation": 3
+  }
+},
+{
+  "model": "logs.log",
+  "pk": 6,
+  "fields": {
+    "date_time_last_attempt": "2024-08-14T17:59:02.014Z",
+    "status": "Сообщение отправлено",
+    "server_code_response": 200,
+    "server_response": "Отправлено без ошибок",
+    "mailing_relation": 4
+  }
+}
+]
