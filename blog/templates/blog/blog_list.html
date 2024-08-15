@@ -28,7 +28,11 @@
         <tbody>
         <tr class="border border-secondary">
             <td colspan="2">
+                {% if blog.picture %}
                 <img src="{% get_default_picture blog.picture %}" class="card-img-top" alt="blog">
+                {% else %}
+                <img src="static/img/not found.jpg" class="card-img-top" alt="blog">
+                {% endif %}
             </td>
         </tr>
         <tr class="border border-secondary">
@@ -37,7 +41,7 @@
         </tr>
         <tr class="border border-secondary">
             <td>Тело блога</td>
-            <td>{{ blog.body_blog }}</td>
+            <td>{{ blog.body_blog|slice:':30' }}...</td>
         </tr>
         <tr class="border border-secondary">
             <td>Счетчик просмотров</td>
@@ -46,6 +50,11 @@
         <tr class="border border-secondary">
             <td>Дата</td>
             <td>{{ blog.posted_date }}</td>
+        </tr>
+        <tr class="border border-secondary">
+            <td>
+                <a href="{% url 'blog:blog_detail' blog.id %}">Подробнее</a>
+            </td>
         </tr>
         </tbody>
     </table>

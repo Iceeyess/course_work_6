@@ -1,0 +1,38 @@
+{% extends 'mailing/base.html' %}
+{% block content %}
+
+<main class="px-3">
+
+    <table class="border border-secondary">
+        <tbody>
+        <tr class="border border-secondary">
+            <td colspan="2">
+                {% load main_page %}
+                {% if object.picture %}
+                <img src="{% get_default_picture object.picture %}" class="card-img-top" alt="blog">
+                {% else %}
+                <img src="{% get_default_picture object.picture %}" class="card-img-top" alt="blog">
+                {% endif %}
+            </td>
+        </tr>
+        <tr class="border border-secondary">
+            <td>Заголовок</td>
+            <td>{{ object.title }}</td>
+        </tr>
+        <tr class="border border-secondary">
+            <td>Тело блога</td>
+            <td>{{ object.body_blog }}</td>
+        </tr>
+        <tr class="border border-secondary">
+            <td>Счетчик просмотров</td>
+            <td>{{ object.count_view }}</td>
+        </tr>
+        <tr class="border border-secondary">
+            <td>Дата</td>
+            <td>{{ object.posted_date }}</td>
+        </tr>
+        </tbody>
+    </table>
+
+</main>
+{% endblock %}
