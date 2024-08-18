@@ -28,11 +28,7 @@
         <tbody>
         <tr class="border border-secondary">
             <td colspan="2">
-                {% if blog.picture %}
                 <img src="{% get_default_picture blog.picture %}" class="card-img-top" alt="blog">
-                {% else %}
-                <img src="static/img/not found.jpg" class="card-img-top" alt="blog">
-                {% endif %}
             </td>
         </tr>
         <tr class="border border-secondary">
