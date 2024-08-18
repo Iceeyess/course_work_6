@@ -13,11 +13,7 @@
         <tbody>
         <tr class="border border-secondary">
             <td colspan="2">
-                {% if blog.picture %}
-                <img src="{% get_default_picture blog.picture %}" class="card-img-top" alt="product">
-                {% else %}
-                <img src="{% get_default_picture blog.picture %}" class="card-img-top" alt="product">
-                {% endif %}
+                <img src="{% get_default_picture blog.picture %}" class="card-img-top" alt="blog">
             </td>
         </tr>
         <tr class="border border-secondary">
